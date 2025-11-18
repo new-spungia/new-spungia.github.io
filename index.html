@@ -1,1039 +1,336 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ultimate Cloud-Weather</title>
-  <style>
-    /* ================================
-       Global & Reset Styles
-       ================================ */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
-      font-family: Arial, sans-serif;
-      --bg-start: #e0f0f8;
-      --bg-end: #ffffff;
-      background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
-      transition: background 2s ease;
-      overflow-x: hidden;
-      color: #000;
-    }
-    @keyframes backgroundShift {
-      0% { background-position: 0% 0%; }
-      100% { background-position: 100% 100%; }
-    }
-    body {
-      animation: backgroundShift 20s ease-in-out infinite alternate;
-    }
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* ================================
-       Top Bar & Title
-       ================================ */
-    .top-bar {
-      width: 100%;
-      padding: 1rem 2rem;
-      position: relative;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      z-index: 100;
-    }
-    .top-bar .title {
-      position: absolute;
-      top: 1rem;
-      right: 2rem;
-      font-size: 1.75rem;
-      font-style: italic;
-      font-weight: bold;
-      color: #003e6b;
-    }
-
-    /* ================================
-       Main Container
-       ================================ */
-    .container {
-      max-width: 1000px;
-      margin: 6rem auto 2rem;
-      padding: 0 1rem;
-    }
-
-    /* ================================
-       Search & Geolocation
-       ================================ */
-    .search-area {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.5rem;
-      position: relative;
-      margin-bottom: 2rem;
-    }
-    .search-area input[type="text"] {
-      flex: 1;
-      padding: 0.75rem 1rem;
-      border: 2px solid #ccc;
-      border-radius: 50px;
-      background-color: #fafafa;
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s ease;
-      color: #000;
-    }
-    .search-area input[type="text"]:focus {
-      border-color: #007acc;
-    }
-    .search-area button {
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 50px;
-      background-color: #007acc;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-    .search-area button:hover {
-      background-color: #005fa3;
-    }
-    .suggestions {
-      position: absolute;
-      top: 3.2rem;
-      left: 0;
-      right: 0;
-      background-color: #fafafa;
-      border: 1px solid #ccc;
-      border-top: none;
-      border-radius: 0 0 8px 8px;
-      max-height: 200px;
-      overflow-y: auto;
-      z-index: 10;
-      display: none;
-    }
-    .suggestions ul {
-      list-style: none;
-    }
-    .suggestions li {
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-    .suggestions li:hover {
-      background-color: #e0e0e0;
-    }
-
-    /* ================================
-       Loader & Error Message
-       ================================ */
-    .loader {
-      margin: 3rem auto;
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid #007acc;
-      border-radius: 50%;
-      width: 3rem;
-      height: 3rem;
-      animation: spin 1s linear infinite;
-      display: none;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .error-message {
-      color: #900;
-      text-align: center;
-      margin-top: 2rem;
-      font-size: 1rem;
-    }
-
-    /* ================================
-       Weather Card & Sections
-       ================================ */
-    .weather-card {
-      background-color: #f8fbff;
-      border-radius: 24px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      animation: fadeIn 0.7s ease-out forwards;
-    }
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-    .weather-card .location-name {
-      font-size: 1.75rem;
-      font-weight: bold;
-      color: #002b4f;
-      margin-bottom: 1rem;
-    }
-    .weather-card .update-time {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 1rem;
-    }
-
-    /* --- Current Weather Section --- */
-    .current-weather {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-    .current-weather .left-block,
-    .current-weather .right-block {
-      flex: 1;
-      min-width: 200px;
-    }
-    .current-weather .temp {
-      font-size: 4rem;
-      font-weight: bold;
-      color: #003e6b;
-    }
-    .current-weather .details {
-      margin-top: 0.5rem;
-      color: #333;
-      font-size: 1rem;
-    }
-    .current-weather .details div {
-      margin-bottom: 0.25rem;
-    }
-
-    /* --- Metrics Grid (Humidity, Pressure, UV, Wind, etc.) --- */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .metric-card {
-      background-color: #ffffff;
-      border-radius: 20px;
-      padding: 1rem;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-    .metric-card .metric-label {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 0.5rem;
-    }
-    .metric-card .metric-value {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: #007acc;
-    }
-
-    /* --- Hourly Forecast --- */
-    .hourly-section {
-      margin-bottom: 1.5rem;
-    }
-    .hourly-section h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
-      color: #002b4f;
-    }
-    .hourly-container {
-      display: flex;
-      overflow-x: auto;
-      gap: 1rem;
-      padding-bottom: 1rem;
-    }
-    .hour-card {
-      flex: 0 0 auto;
-      background-color: #ffffff;
-      border-radius: 20px;
-      padding: 0.75rem;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
-      min-width: 100px;
-    }
-    .hour-card.selected {
-      background-color: #e0f0f8;
-      transform: translateY(-4px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-    }
-    .hour-card .hour-time {
-      font-size: 0.9rem;
-      margin-bottom: 0.25rem;
-      color: #002b4f;
-    }
-    .hour-card .hour-icon {
-      font-size: 1.5rem;
-      margin-bottom: 0.25rem;
-    }
-    .hour-card .hour-temp {
-      font-weight: bold;
-      color: #003e6b;
-    }
-    /* Scrollbar styling */
-    .hourly-container::-webkit-scrollbar {
-      height: 8px;
-    }
-    .hourly-container::-webkit-scrollbar-track {
-      background: #f0f0f0;
-      border-radius: 4px;
-    }
-    .hourly-container::-webkit-scrollbar-thumb {
-      background: #ccc;
-      border-radius: 4px;
-    }
-
-    /* --- Daily Forecast --- */
-    .daily-section {
-      margin-bottom: 1.5rem;
-    }
-    .daily-section h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
-      color: #002b4f;
-    }
-    .forecast-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 1rem;
-    }
-    .forecast-day {
-      background-color: #ffffff;
-      border-radius: 20px;
-      padding: 0.75rem;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .forecast-day:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-    }
-    .forecast-day .day-date {
-      font-size: 1rem;
-      margin-bottom: 0.25rem;
-      color: #002b4f;
-    }
-    .forecast-day .icon {
-      font-size: 2rem;
-      margin-bottom: 0.25rem;
-    }
-    .forecast-day .temp-max {
-      font-weight: bold;
-      color: #d32f2f;
-      margin-bottom: 0.25rem;
-    }
-    .forecast-day .temp-min {
-      color: #1565c0;
-      margin-bottom: 0.25rem;
-    }
-    .forecast-day .sunrise-sunset {
-      font-size: 0.8rem;
-      color: #555;
-    }
-
-    /* --- Alerts Section --- */
-    .alerts-section {
-      margin-bottom: 1.5rem;
-    }
-    .alerts-section h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
-      color: #a30000;
-    }
-    .alert-card {
-      background-color: #ffeaea;
-      border-left: 6px solid #a30000;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-    }
-    .alert-card .alert-title {
-      font-weight: bold;
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      color: #a30000;
-    }
-    .alert-card .alert-desc {
-      font-size: 0.95rem;
-      margin-bottom: 0.5rem;
-      color: #333;
-    }
-    .alert-card .alert-time {
-      font-size: 0.85rem;
-      color: #555;
-    }
-
-    /* --- Map Section Placeholder --- */
-    .map-section {
-      margin-bottom: 1.5rem;
-    }
-    .map-section h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
-      color: #002b4f;
-    }
-    .map-placeholder {
-      width: 100%;
-      height: 300px;
-      background-color: #d0e7ff;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #555;
-      font-size: 1.25rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    /* --- Unit Toggle Switch --- */
-    .unit-toggle {
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    .unit-toggle label {
-      font-size: 1rem;
-      margin-right: 0.5rem;
-      color: #002b4f;
-    }
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
-      border-radius: 34px;
-    }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-    }
-    input:checked + .slider {
-      background-color: #007acc;
-    }
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    /* ================================
-       Media Queries
-       ================================ */
-    @media (max-width: 600px) {
-      .current-weather {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .current-weather .temp {
-        font-size: 3rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Spungia - Official Website</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Geist Font from Google Fonts (Weights 300 & 400) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Requesting specific weights 300 (light) and 400 (regular) -->
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 7.0.1 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            /* Changed font to Geist, default weight 300 */
+            font-family: 'Geist', sans-serif;
+            font-weight: 300;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        /* Simple scrollbar for aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        
+        /* Custom list style for the charter */
+        .charter-list {
+            list-style-type: none;
+            padding-left: 1.5rem;
+        }
+        .charter-list li {
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+        .charter-list li::before {
+            content: '\f0a9'; /* Font Awesome check-circle or similar */
+            font-family: 'Font Awesome 7 Free';
+            font-weight: 900;
+            position: absolute;
+            left: -1.75rem;
+            top: 0.25rem;
+            color: #4a5568; /* text-gray-600 */
+            font-size: 0.8em;
+        }
+    </style>
 </head>
-<body>
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <div class="title">Cloud-Weather Ultimate</div>
-  </div>
+<body class="bg-black text-gray-300 antialiased">
 
-  <!-- Main Container -->
-  <div class="container">
-    <!-- Search Area -->
-    <div class="search-area">
-      <input type="text" id="location-input" placeholder="Enter location (city, country)..." autocomplete="off"/>
-      <button id="search-button">Search</button>
-      <button id="current-location-button">Use My Location</button>
-      <div class="suggestions" id="suggestions-box">
-        <ul id="suggestions-list"></ul>
-      </div>
-    </div>
-    <!-- Loader & Error -->
-    <div id="loader" class="loader"></div>
-    <div id="error" class="error-message"></div>
+    <!-- Header & Navigation -->
+    <header class="bg-black shadow-lg sticky top-0 z-50 border-b border-gray-900">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-normal text-white">
+                <i class="fa-solid fa-shield-halved mr-2"></i>
+                New Spungia
+            </h1>
+            <div class="space-x-6 hidden md:flex items-center">
+                <a href="#home" class="text-gray-400 hover:text-white transition duration-300">Home</a>
+                <a href="#history" class="text-gray-400 hover:text-white transition duration-300">History</a>
+                <a href="#leadership" class="text-gray-400 hover:text-white transition duration-300">Leadership</a>
+                <a href="#charter" class="text-gray-400 hover:text-white transition duration-300">Charter</a>
+                <a href="https://4simpleproblems.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-300">4SP</a>
+                <!-- Authenticate Button Removed -->
+            </div>
+            <!-- Mobile Menu Button (no functionality, just for show) -->
+            <div class="md:hidden">
+                <button class="text-white">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
 
-    <!-- Weather Result Container -->
-    <div id="weather-result"></div>
-  </div>
+    <!-- Main Content -->
+    <main class="container mx-auto px-6">
 
-  <script>
-    /* ================================
-       Utility: Map Open-Meteo codes → icons & themes
-       ================================ */
-    const weatherCodeMap = {
-      0:  { icon: "☀️",    desc: "Clear sky",                  theme: "sunny" },
-      1:  { icon: "🌤️",   desc: "Mainly clear",               theme: "sunny" },
-      2:  { icon: "⛅",    desc: "Partly cloudy",              theme: "cloudy" },
-      3:  { icon: "☁️",    desc: "Overcast",                   theme: "cloudy" },
-      45: { icon: "🌫️",   desc: "Fog",                        theme: "fog" },
-      48: { icon: "🌫️",   desc: "Depositing rime fog",        theme: "fog" },
-      51: { icon: "🌦️",   desc: "Light drizzle",              theme: "rain" },
-      53: { icon: "🌦️",   desc: "Moderate drizzle",           theme: "rain" },
-      55: { icon: "🌧️",   desc: "Dense drizzle",              theme: "rain" },
-      56: { icon: "🌧️",   desc: "Light freezing drizzle",     theme: "rain" },
-      57: { icon: "🌧️",   desc: "Dense freezing drizzle",     theme: "rain" },
-      61: { icon: "🌧️",   desc: "Slight rain",                theme: "rain" },
-      63: { icon: "🌧️",   desc: "Moderate rain",              theme: "rain" },
-      65: { icon: "🌧️",   desc: "Heavy rain",                 theme: "rain" },
-      66: { icon: "🌨️",   desc: "Light freezing rain",        theme: "snow" },
-      67: { icon: "🌨️",   desc: "Heavy freezing rain",        theme: "snow" },
-      71: { icon: "❄️",   desc: "Slight snow fall",           theme: "snow" },
-      73: { icon: "❄️",   desc: "Moderate snow fall",         theme: "snow" },
-      75: { icon: "❄️",   desc: "Heavy snow fall",            theme: "snow" },
-      77: { icon: "🌨️",   desc: "Snow grains",                theme: "snow" },
-      80: { icon: "🌦️",   desc: "Slight rain showers",        theme: "rain" },
-      81: { icon: "🌧️",   desc: "Moderate rain showers",      theme: "rain" },
-      82: { icon: "🌧️",   desc: "Violent rain showers",       theme: "rain" },
-      85: { icon: "🌨️",   desc: "Slight snow showers",        theme: "snow" },
-      86: { icon: "🌨️",   desc: "Heavy snow showers",         theme: "snow" },
-      95: { icon: "⛈️",   desc: "Thunderstorm",               theme: "thunder" },
-      96: { icon: "⛈️",   desc: "Thunderstorm w/ slight hail", theme: "thunder" },
-      99: { icon: "⛈️",   desc: "Thunderstorm w/ heavy hail",  theme: "thunder" }
-    };
+        <!-- Hero Section -->
+        <section id="home" class="text-center py-24 border-b border-gray-900">
+            <h2 class="text-5xl sm:text-6xl font-light tracking-tighter mb-4 leading-tight text-white">Welcome to New Spungia</h2>
+            <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">Forged in friendship, built on governance. Formerly the Republic of Spung.</p>
+            <a href="#history" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-normal rounded-xl text-white bg-white/10 ring-1 ring-white/20 hover:bg-white/20 transition">
+                Explore Our History
+                <i class="fa-solid fa-arrow-down-long ml-2"></i>
+            </a>
+        </section>
 
-    /* ================================
-       DOM Elements & Globals
-       ================================ */
-    const locationInput       = document.getElementById("location-input");
-    const searchButton        = document.getElementById("search-button");
-    const currentLocationBtn  = document.getElementById("current-location-button");
-    const weatherResult       = document.getElementById("weather-result");
-    const loader              = document.getElementById("loader");
-    const errorMessage        = document.getElementById("error");
-    const suggestionsBox      = document.getElementById("suggestions-box");
-    const suggestionsList     = document.getElementById("suggestions-list");
+        <!-- History Section -->
+        <section id="history" class="py-20 border-b border-gray-900">
+            <h3 class="text-4xl font-light text-center mb-12 text-white">
+                <i class="fa-solid fa-scroll mr-3 text-gray-600"></i>
+                Our Storied History
+            </h3>
+            
+            <div class="space-y-16 max-w-4xl mx-auto">
+                <!-- Chapter 1 -->
+                <div class="bg-gray-950/50 border border-gray-800/50 rounded-xl shadow-lg p-8 transition duration-300">
+                    <i class="fa-solid fa-face-laugh-beam text-4xl text-blue-500 mb-4"></i>
+                    <h4 class="text-2xl font-normal mb-3 text-white">Chapter 1: The "New Fun Slides"</h4>
+                    <p class="text-gray-400 text-lg leading-relaxed">
+                        The Republic's story begins on October 15, 2025. Aidyn Kerns created "The New Fun Slides" as a response to other chaotic Google Slideshows. The goal was to create a zone where friends could share content and laugh without fear of their work being deleted or the slides lagging out. Though the initial rules were loose, the slideshow quickly gained popularity, establishing a core group of "higher-ups" including Jack Crawford, Wyatt Belknap, Zach Rose, and Zach Becher.
+                    </p>
+                </div>
+                
+                <!-- Chapter 2 -->
+                <div class="bg-gray-950/50 border border-gray-800/50 rounded-xl shadow-lg p-8 transition duration-300">
+                    <i class="fa-solid fa-palette text-4xl text-green-500 mb-4"></i>
+                    <h4 class="text-2xl font-normal mb-3 text-white">Chapter 2: The Birth of "Spungbung" & The Republic</h4>
+                    <p class="text-gray-400 text-lg leading-relaxed">
+                        A pivotal moment occurred on October 16, 2025, when Wyatt Belknap and Zachary Ludwig created a unique piece of art. Wyatt named this creation "Spungbung," which inspired the core "Spung" ideology and the "Spung Spangled Banner." After a user, Zachary Ludwig, was removed for inappropriate content and then re-added (suspected by Zachary Becher), he deleted all the slides. Aidyn Kerns restored the slides, leading to a "mass removal" and the formal creation of "The Republic of Spung" to establish order. Aidyn Kerns became the first president without an election, and the first Charter of Governance was drafted by Jack Crawford, establishing the positions of Executive Ruler and Executor, won by Jack Crawford and Zachary Rose, respectively.
+                    </p>
+                </div>
+                
+                <!-- Chapter 3 -->
+                <div class="bg-gray-950/50 border border-gray-800/50 rounded-xl shadow-lg p-8 transition duration-300">
+                    <i class="fa-solid fa-gavel text-4xl text-yellow-500 mb-4"></i>
+                    <h4 class="text-2xl font-normal mb-3 text-white">Chapter 3: The Trial of Zachary Bechar</h4>
+                    <p class="text-gray-400 text-lg leading-relaxed">
+                        The first official trial in the Republic's history was against Zachary Bechar, who was charged with treason for re-adding Zachary Ludwig after his removal. He confessed to the charge and, by a unanimous decision, was removed from the slides, setting a precedent for the rule of law.
+                    </p>
+                </div>
 
-    let debounceTimer = null;
-    let unitSystem   = "metric"; // "metric" or "imperial"
+                <!-- Chapter 4 (Corrected) -->
+                <div class="bg-gray-950/50 border border-gray-800/50 rounded-xl shadow-lg p-8 transition duration-300">
+                    <i class="fa-solid fa-computer-mouse text-4xl text-red-500 mb-4"></i>
+                    <h4 class="text-2xl font-normal mb-3 text-white">Chapter 4: The "First Chinchillian War"</h4>
+                    <p class="text-gray-400 text-lg leading-relaxed">
+                        This event, taking place on November 17, 2025, was not a physical conflict but a significant digital dispute within the Google Slides. A disagreement, originating from an incident in Ms. Masl's room involving Zachary Rose and Zachary Ludwig, escalated into a "digital feud" on the slides. This involved heated arguments, rapid edits, or other actions on the presentation itself. This event marked a key moment of internal political tension that was eventually de-escalated, reinforcing the need for clear digital governance.
+                    </p>
+                </div>
 
-    /* ================================
-       Show / Hide Loader & Error
-       ================================ */
-    function showLoader() { loader.style.display = "block"; }
-    function hideLoader() { loader.style.display = "none"; }
-    function showError(msg) { errorMessage.textContent = msg; }
-    function clearError() { errorMessage.textContent = ""; }
+                <!-- Chapter 5: The First General Election -->
+                <div class="bg-gray-950/50 border border-gray-800/50 rounded-xl shadow-lg p-8 transition duration-300">
+                    <i class="fa-solid fa-check-to-slot text-4xl text-purple-500 mb-4"></i>
+                    <h4 class="text-2xl font-normal mb-3 text-white">Chapter 5: The First General Election (Nov 17, 2025)</h4>
+                    <p class="text-gray-400 text-lg leading-relaxed mb-6">
+                        The first scheduled General Election was held on November 17, 2025, marking a peaceful transfer of power and solidifying the Republic's democratic processes. The citizens voted for a new administration and on key issues.
+                    </p>
+                    <h5 class="text-xl font-normal text-gray-200 mb-3">Election Results:</h5>
+                    <ul class="charter-list text-gray-400 text-lg">
+                        <li><strong>Presidential:</strong> Wyatt Belknap (Spatian) defeated Landon Boyle (Traditional) with a decisive 12-1 vote.</li>
+                        <li><strong>Senator-Executive Ruler:</strong> Jack Crawford (Spatian) was elected with a 13-0 vote.</li>
+                        <li><strong>Senator-Executioner:</strong> Zachary Rose (Traditional) was elected, defeating Aidyn Kerns (Spatian) 11-2.</li>
+                        <li><strong>Colony Name:</strong> The name "New Spungia" was chosen for the new colony with 5 votes, solidifying the new name of the nation.</li>
+                        <li><strong>Issue 1 (Money shares and businesses):</strong> Passed with an 8-5 vote, scheduled to be put in place on November 20, 2025.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-    /* ================================
-       Update Theme Based on Weather & Time
-       ================================ */
-    function setTheme(weatherCode, localHour) {
-      const mapping = weatherCodeMap[weatherCode] || { theme: "sunny" };
-      let start, end;
-      const isNight = localHour < 6 || localHour >= 18;
-      switch (mapping.theme) {
-        case "sunny":
-          start = isNight ? "#2c3e50" : "#87ceeb";
-          end   = isNight ? "#000000" : "#ffffff";
-          break;
-        case "cloudy":
-          start = isNight ? "#4b6e8a" : "#dfefff";
-          end   = isNight ? "#1c2833" : "#ffffff";
-          break;
-        case "rain":
-          start = isNight ? "#2f3e46" : "#5f9ea0";
-          end   = isNight ? "#0f2027" : "#a0c4ff";
-          break;
-        case "snow":
-          start = isNight ? "#3b4a59" : "#e0f7fa";
-          end   = isNight ? "#1a242f" : "#ffffff";
-          break;
-        case "thunder":
-          start = isNight ? "#1c1c1c" : "#555555";
-          end   = isNight ? "#000000" : "#999999";
-          break;
-        case "fog":
-          start = "#7f8c8d";
-          end   = "#bdc3c7";
-          break;
-        default:
-          start = "#87ceeb";
-          end   = "#ffffff";
-      }
-      document.documentElement.style.setProperty('--bg-start', start);
-      document.documentElement.style.setProperty('--bg-end', end);
-    }
+        <!-- Leadership Section -->
+        <section id="leadership" class="py-20 border-b border-gray-900">
+            <h3 class="text-4xl font-light text-center mb-12 text-white">
+                <i class="fa-solid fa-users mr-3 text-gray-600"></i>
+                Governance & Leadership
+            </h3>
+            
+            <p class="text-lg text-gray-400 max-w-3xl mx-auto text-center mb-16">
+                The Republic is guided by the Charter of Governance and led by its elected officials.
+            </p>
 
-    /* ================================
-       Fetch Coordinates via Open-Meteo Geocoding
-       ================================ */
-    async function fetchCoordinates(locationName) {
-      const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(locationName)}&count=5`;
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Failed to fetch geocoding data.");
-      const data = await response.json();
-      if (!data.results || data.results.length === 0) throw new Error("Location not found.");
-      return data.results; // Array of location matches
-    }
+            <!-- Current Administration -->
+            <h4 class="text-2xl font-normal mb-8 text-white text-center">Current Administration (As of Nov 17, 2025)</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- President -->
+                <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl shadow-lg text-center">
+                    <h4 class="text-2xl font-normal text-blue-400">The President</h4>
+                    <p class="text-lg font-normal mt-2 mb-1 text-white">Mr. Wyatt Belknap</p>
+                    <p class="text-gray-400">As the newly elected President, Mr. Belknap holds the power to initiate legislation, exercise a limited veto, and serve as the final resolution in legislative disputes.</p>
+                </div>
+                
+                <!-- Executive Ruler -->
+                <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl shadow-lg text-center">
+                    <h4 class="text-2xl font-normal text-blue-400">Senator & Executive Ruler</h4>
+                    <p class="text-lg font-normal mt-2 mb-1 text-white">Mr. Jack Crawford</p>
+                    <p class="text-gray-400">Re-elected to his post, Mr. Crawford guides the legislative agenda, holds decisive voting authority, and is empowered to enact Minor Legislation.</p>
+                </div>
+                
+                <!-- Executor -->
+                <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl shadow-lg text-center">
+                    <h4 class="text-2xl font-normal text-blue-400">Senator & Executor</h4>
+                    <p class="text-lg font-normal mt-2 mb-1 text-white">Mr. Zachary Rose</p>
+                    <p class="text-gray-400">Re-elected to his post, Mr. Rose possesses the authority for discretionary removal or editing of content, ensuring the integrity of the slides as per the Charter.</p>
+                </div>
+            </div>
 
-    /* ================================
-       Fetch Weather Data (Current, Hourly, Daily) via Open-Meteo
-       ================================ */
-    async function fetchWeather(lat, lon) {
-      const params = new URLSearchParams({
-        latitude: lat,
-        longitude: lon,
-        current_weather: "true",
-        hourly: [
-          "temperature_2m",
-          "relativehumidity_2m",
-          "pressure_msl",
-          "windspeed_10m",
-          "winddirection_10m",
-          "precipitation",
-          "weathercode",
-          "cloudcover",
-          "uv_index"
-        ].join(","),
-        daily: [
-          "temperature_2m_max",
-          "temperature_2m_min",
-          "weathercode",
-          "sunrise",
-          "sunset",
-          "moonphase",
-          "precipitation_sum",
-          "uv_index_max"
-        ].join(","),
-        timezone: "auto"
-      });
-      const url = `https://api.open-meteo.com/v1/forecast?${params.toString()}`;
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Failed to fetch weather data.");
-      const data = await response.json();
-      return data;
-    }
+            <!-- Founding Administration -->
+            <h4 class="text-2xl font-normal mb-8 mt-20 text-white text-center">Founding Administration (Oct - Nov 2025)</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl shadow-lg text-center opacity-70">
+                    <h4 class="text-2xl font-normal text-blue-400/80">Founding President</h4>
+                    <p class="text-lg font-normal mt-2 mb-1 text-white">Mr. Aidyn Kerns</p>
+                    <p class="text-gray-500">The first president of the Republic, who established the initial government and oversaw the creation of the Charter.</p>
+                </div>
+                <div class="md:col-span-2 bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl shadow-lg text-center opacity-70">
+                    <h4 class="text-2xl font-normal text-blue-400/80">Founding Senators</h4>
+                    <p class="text-lg font-normal mt-2 mb-1 text-white">Mr. Jack Crawford & Mr. Zachary Rose</p>
+                    <p class="text-gray-500">The first two Senators who drafted and enforced the original Charter of Governance.</p>
+                </div>
+            </div>
+            
+            <!-- Other Governance -->
+            <div class="max-w-4xl mx-auto mt-20 space-y-8">
+                <div>
+                    <h4 class="text-2xl font-normal mb-4 text-white text-center">Political Parties</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl">
+                            <h5 class="text-xl font-normal text-white mb-2">Traditional Spung</h5>
+                            <p class="text-gray-400">Includes Spungism values, is "old time like," and uses humor and feelings to get votes. Members include Quintin Carpenter.</p>
+                        </div>
+                        <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl">
+                            <h5 class="text-xl font-normal text-white mb-2">Spatian Spung</h5>
+                            <p class="text-gray-400">Includes intelligently-worded Spungism values and pulls values from other civilizations. Members include Jack Crawford, Aidyn Kerns, and Wyatt Belknap.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-2xl font-normal mb-4 text-white text-center">Citizen Status</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl">
+                            <h5 class="text-xl font-normal text-white mb-2">Trusted Citizens</h5>
+                            <p class="text-gray-400">Granted exemption from punitive actions by the Executive Authority. They hold no voting rights in government but may serve an advisory role. Status is granted by a joint majority vote of the President and Senate.</p>
+                        </div>
+                        <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl">
+                            <h5 class="text-xl font-normal text-white mb-2">Designated Citizens</h5>
+                            <p class="text-gray-400">Exempt from actions by the Executor. However, they are formally disenfranchised and barred from all electoral and legislative processes. Status is granted by the President and Senatorial Council.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    /* ================================
-       Fetch Weather Alerts (if available)
-       ================================ */
-    async function fetchAlerts(lat, lon) {
-      // Open-Meteo Alerts endpoint
-      const url = `https://api.open-meteo.com/v1/alerts?latitude=${lat}&longitude=${lon}&timezone=auto`;
-      const response = await fetch(url);
-      if (!response.ok) return null;
-      const data = await response.json();
-      return data.alerts || null;
-    }
+        </section>
+        
+        <!-- Charter of Governance Section -->
+        <section id="charter" class="py-20 border-b border-gray-900">
+            <h3 class="text-4xl font-light text-center mb-16 text-white">
+                <i class="fa-solid fa-book-gavel mr-3 text-gray-600"></i>
+                Charter of Governance
+            </h3>
+            
+            <div class="max-w-4xl mx-auto space-y-12 text-gray-400 text-lg leading-relaxed">
 
-    /* ================================
-       Render Current Weather Section
-       ================================ */
-    function renderCurrentWeather(current, units) {
-      const tempUnit = units === "metric" ? "°C" : "°F";
-      const speedUnit = units === "metric" ? "km/h" : "mph";
-      const detailsHTML = `
-        <div class="temp">${Math.round(current.temperature)}${tempUnit}</div>
-        <div class="details">
-          <div>${weatherCodeMap[current.weathercode]?.icon || "❔"} ${weatherCodeMap[current.weathercode]?.desc || "Unknown"}</div>
-          <div>Wind: ${Math.round(current.windspeed)} ${speedUnit}</div>
+                <!-- Part I -->
+                <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                    <h4 class="text-2xl font-normal text-white mb-4">Part I: Principles of Conduct and Digital Integrity</h4>
+                    <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 1: Code of Conduct for Digital Spaces</h5>
+                    <ul class="charter-list">
+                        <li><strong>Section 1.1.1:</strong> Any act of deletion, alteration, or unauthorized modification of official rule sets, governmental statutes, or presentation slides is strictly prohibited.</li>
+                        <li><strong>Section 1.1.2:</strong> Presentation slides designated for "4simpleproblems (4SP)" shall not be deleted or altered without authorization.</li>
+                        <li><strong>Section 1.1.3:</strong> A maximum limit of five (5) animated GIFs is imposed per slide. Excessive propagation of GIFs is classified as digital spam.</li>
+                        <li><strong>Section 1.2.2:</strong> Designated user slides are inviolable and shall not be subject to editing, modification, or deletion by any other party.</li>
+                        <li><strong>Section 1.4.1 (First Infraction):</strong> A three (3) day suspension of all access and editing privileges.</li>
+                        <li><strong>Section 1.4.2 (Subsequent Infractions):</strong> A third (3rd) or subsequent infraction shall result in permanent and irrevocable revocation of all access rights.</li>
+                    </ul>
+                </div>
+
+                <!-- Part II -->
+                <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                    <h4 class="text-2xl font-normal text-white mb-4">Part II: The Framework of Republican Governance</h4>
+                    <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 2 & 3: Senate, Executive Authorities</h5>
+                    <ul class="charter-list">
+                        <li><strong>Section 2.1.1:</strong> The Senate comprises two principal leadership positions: the Executive Ruler and the Executor.</li>
+                        <li><strong>Section 2.2.2:</strong> In the event of a tie vote between the Executive Ruler and Executor on Major Legislation, the President shall cast the deciding vote.</li>
+                        <li><strong>Section 2.2.3 (Presidential Veto):</strong> The President retains the absolute right to veto any legislative act. This veto is final and not subject to override. (Note: Section 4.2.2 limits this to 3 vetoes per term).</li>
+                        <li><strong>Section 2.3.1:</strong> Senators shall be elected to serve a term of one (1) calendar month.</li>
+                        <li><strong>Section 4.1.1:</strong> The President shall hold office for a fixed term of one (1) consecutive month.</li>
+                    </ul>
+                </div>
+                
+                <!-- Part III -->
+                <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                    <h4 class="text-2xl font-normal text-white mb-4">Part III: Status, Rights, and Judicial Frameworks</h4>
+                    <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 5 & 6: Articles of Trust</h5>
+                    <ul class="charter-list">
+                        <li><strong>Section 5.1.1:</strong> Trusted Citizens are exempt from disciplinary actions by the Executive Authority.</li>
+                        <li><strong>Section 5.1.2:</strong> Trusted Citizens shall not possess any voting rights within the legislative or executive processes.</li>
+                        <li><strong>Section 5.1.4:</strong> Approval of Trusted Citizen status requires a joint deliberation and majority vote from the President and the Senate.</li>
+                        <li><strong>Section 6.1.1:</strong> Designated Citizens are exempt from any punitive actions or influence from the Executor.</li>
+                        <li><strong>Section 6.2.1:</strong> Designated Citizens are formally disenfranchised and barred from all electoral and decision-making processes.</li>
+                    </ul>
+                </div>
+                
+                <!-- Part IV -->
+                <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                    <h4 class="text-2xl font-normal text-white mb-4">Part IV: Electoral Frameworks and Legislative Enactment</h4>
+                    <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 7: Bylaws Governing Elections</h5>
+                    <ul class="charter-list">
+                        <li><strong>Section 7.1.3:</strong> No legislative voting shall be permitted on any day officially designated for a scheduled election.</li>
+                        <li><strong>Section 7.2.1 (Minor Laws):</strong> The sole authority for enactment of Minor Laws rests with the Executive Ruler.</li>
+                        <li><strong>Section 7.2.2 (Major Laws):</strong> Must first be submitted for approval to both members of the Senatorial Council. If they cannot reach consensus, it is submitted to the President. If the President is undecided, it is put to a popular referendum.</li>
+                        <li><strong>Section 7.2.3 (Vascular Laws):</strong> Any set of four (4) or more laws presented concurrently. Requires approval from at least two (2) of the three (3) officials (President, Executive Ruler, Executor).</li>
+                        <li><strong>Section 7.2.4 (Removing Laws):</strong> No Power of Government can remove a law. This requires a 6-step voting process involving a citizen, the President, the Senators (100% agreement), Trusted Citizens (90% agreement), and Regular Citizens (75% agreement).</li>
+                    </ul>
+                </div>
+
+                <!-- Part X: Colonies -->
+                <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                    <h4 class="text-2xl font-normal text-white mb-4">Part X: The Establishment of Colonies</h4>
+                    <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 13: Establishment of Colonies</h5>
+                    <ul class="charter-list">
+                        <li><strong>Article 13.1:</strong> Establishment of an official colony requires an official Republic of Spung Charter (RSC). The RSC must secure affirmative approval from a minimum of two (2) designated Council members.</li>
+                        <li><strong>Article 13.7:</strong> The designation and naming of a colony shall be the prerogative of the Council, following the submission of a suggestion by the Governor.</li>
+                    </ul>
+                </div>
+
+            </div>
+            
+        </section>
+
+        <!-- Authenticate Section Removed -->
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-900 py-8">
+        <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2025, New Spungia. Governed by the principles of the Charter of Governance.</p>
+            <p class="mt-1">Created by Wyatt Belknap, the creator of 4simpleproblems (4SP).</p>
         </div>
-      `;
-      const container = document.createElement("div");
-      container.className = "current-weather";
-      container.innerHTML = `
-        <div class="left-block">${detailsHTML}</div>
-        <div class="right-block">
-          <div class="metric-card">
-            <div class="metric-label">Humidity</div>
-            <div class="metric-value">${current.relativehumidity_2m}%</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Pressure</div>
-            <div class="metric-value">${Math.round(current.pressure_msl)} hPa</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">UV Index</div>
-            <div class="metric-value">${current.uv_index}</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Cloud Cover</div>
-            <div class="metric-value">${current.cloudcover}%</div>
-          </div>
-        </div>
-      `;
-      return container;
-    }
+    </footer>
 
-    /* ================================
-       Render Metrics Grid (Dew Point, Visibility, etc.)
-       ================================ */
-    function renderExtraMetrics(current, units) {
-      const dewPoint = (current.temperature - ((100 - current.relativehumidity_2m) / 5)).toFixed(1); // Approximation
-      const visibility = current.cloudcover < 50 ? "Good" : "Moderate";
-      const gustUnit = units === "metric" ? "km/h" : "mph";
-      return `
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-label">Dew Point</div>
-            <div class="metric-value">${dewPoint}°${units === "metric" ? "C" : "F"}</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Visibility</div>
-            <div class="metric-value">${visibility}</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Wind Gust</div>
-            <div class="metric-value">${Math.round(current.windspeed * 1.5)} ${gustUnit}</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Precipitation</div>
-            <div class="metric-value">${current.precipitation} mm</div>
-          </div>
-        </div>
-      `;
-    }
-
-    /* ================================
-       Render Hourly Forecast Section (Next 48 Hours)
-       ================================ */
-    function renderHourlyForecast(hourly, units, currentTime) {
-      const tempUnit = units === "metric" ? "°C" : "°F";
-      const speedUnit = units === "metric" ? "km/h" : "mph";
-      const nowIndex = hourly.time.findIndex(t => new Date(t) >= new Date(currentTime));
-      const endIndex = Math.min(nowIndex + 48, hourly.time.length);
-      const container = document.createElement("div");
-      container.className = "hourly-section";
-      container.innerHTML = `<h3>Hourly Forecast</h3>`;
-      const listDiv = document.createElement("div");
-      listDiv.className = "hourly-container";
-      for (let i = nowIndex; i < endIndex; i++) {
-        const dateObj = new Date(hourly.time[i]);
-        const hourLabel = dateObj.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
-        const code = hourly.weathercode[i];
-        const icon = weatherCodeMap[code]?.icon || "❔";
-        const temp = Math.round(hourly.temperature_2m[i]);
-        const card = document.createElement("div");
-        card.className = "hour-card";
-        card.innerHTML = `
-          <div class="hour-time">${hourLabel}</div>
-          <div class="hour-icon">${icon}</div>
-          <div class="hour-temp">${temp}${tempUnit}</div>
-        `;
-        card.addEventListener("click", () => {
-          document.querySelectorAll(".hour-card").forEach(el => el.classList.remove("selected"));
-          card.classList.add("selected");
-        });
-        listDiv.appendChild(card);
-      }
-      container.appendChild(listDiv);
-      return container;
-    }
-
-    /* ================================
-       Render Daily Forecast Section (Next 7 Days)
-       ================================ */
-    function renderDailyForecast(daily, units) {
-      const tempUnit = units === "metric" ? "°C" : "°F";
-      const container = document.createElement("div");
-      container.className = "daily-section";
-      container.innerHTML = `<h3>7-Day Forecast</h3>`;
-      const gridDiv = document.createElement("div");
-      gridDiv.className = "forecast-container";
-      for (let i = 0; i < daily.time.length; i++) {
-        const dateObj = new Date(daily.time[i]);
-        const dateStr = dateObj.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
-        const code = daily.weathercode[i];
-        const icon = weatherCodeMap[code]?.icon || "❔";
-        const maxT = Math.round(daily.temperature_2m_max[i]);
-        const minT = Math.round(daily.temperature_2m_min[i]);
-        const sunrise = new Date(daily.sunrise[i]).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
-        const sunset = new Date(daily.sunset[i]).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
-        const moonP = (daily.moonphase[i] * 100).toFixed(0);
-        const precip = daily.precipitation_sum[i];
-        const uvMax = daily.uv_index_max[i];
-        const card = document.createElement("div");
-        card.className = "forecast-day";
-        card.innerHTML = `
-          <div class="day-date">${dateStr}</div>
-          <div class="icon">${icon}</div>
-          <div class="temp-max">${maxT}${tempUnit}</div>
-          <div class="temp-min">${minT}${tempUnit}</div>
-          <div class="sunrise-sunset">🌅 ${sunrise} | 🌇 ${sunset}</div>
-          <div class="sunrise-sunset">🌙 Moon: ${moonP}%</div>
-          <div class="sunrise-sunset">☔ ${precip} mm | ☀️ UV: ${uvMax}</div>
-        `;
-        gridDiv.appendChild(card);
-      }
-      container.appendChild(gridDiv);
-      return container;
-    }
-
-    /* ================================
-       Render Alerts Section
-       ================================ */
-    function renderAlerts(alerts) {
-      if (!alerts || alerts.length === 0) return null;
-      const container = document.createElement("div");
-      container.className = "alerts-section";
-      container.innerHTML = `<h3>Weather Alerts</h3>`;
-      alerts.forEach(alert => {
-        const card = document.createElement("div");
-        card.className = "alert-card";
-        card.innerHTML = `
-          <div class="alert-title">${alert.event}</div>
-          <div class="alert-desc">${alert.description}</div>
-          <div class="alert-time">From: ${new Date(alert.start * 1000).toLocaleString()} Until: ${new Date(alert.end * 1000).toLocaleString()}</div>
-        `;
-        container.appendChild(card);
-      });
-      return container;
-    }
-
-    /* ================================
-       Render Map Section Placeholder
-       ================================ */
-    function renderMapPlaceholder(lat, lon) {
-      const container = document.createElement("div");
-      container.className = "map-section";
-      container.innerHTML = `
-        <h3>Location Map</h3>
-        <div class="map-placeholder">Map for (${lat.toFixed(2)}, ${lon.toFixed(2)})</div>
-      `;
-      return container;
-    }
-
-    /* ================================
-       Render Unit Toggle
-       ================================ */
-    function renderUnitToggle() {
-      const container = document.createElement("div");
-      container.className = "unit-toggle";
-      container.innerHTML = `
-        <label for="unit-switch">°C / °F</label>
-        <label class="switch">
-          <input type="checkbox" id="unit-switch" ${unitSystem === "imperial" ? "checked" : ""}/>
-          <span class="slider"></span>
-        </label>
-      `;
-      const checkbox = container.querySelector("#unit-switch");
-      checkbox.addEventListener("change", () => {
-        unitSystem = checkbox.checked ? "imperial" : "metric";
-        if (weatherResult.innerHTML) {
-          // Re-run last search if needed (store last coordinates)
-          if (lastCoords) loadWeather(lastCoords);
-        }
-      });
-      return container;
-    }
-
-    /* ================================
-       Main Render Function
-       ================================ */
-    let lastCoords = null;
-    async function loadWeather(coords) {
-      try {
-        clearError();
-        weatherResult.innerHTML = "";
-        showLoader();
-        const weatherData = await fetchWeather(coords.latitude, coords.longitude);
-        const alertsData = await fetchAlerts(coords.latitude, coords.longitude);
-
-        // Title & Update Time
-        const card = document.createElement("div");
-        card.className = "weather-card";
-        const locationName = `${coords.name}${coords.admin1 ? ", " + coords.admin1 : ""}, ${coords.country}`;
-        const updateTime = new Date(weatherData.current_weather.time).toLocaleString();
-        card.innerHTML = `
-          <div class="location-name">${locationName}</div>
-          <div class="update-time">Last updated: ${updateTime}</div>
-        `;
-
-        // Current Weather & Metrics
-        const currentBlock = renderCurrentWeather({ 
-          ...weatherData.current_weather,
-          relativehumidity_2m: weatherData.hourly.relativehumidity_2m[weatherData.hourly.time.findIndex(t => t === weatherData.current_weather.time)],
-          pressure_msl: weatherData.hourly.pressure_msl[weatherData.hourly.time.findIndex(t => t === weatherData.current_weather.time)],
-          cloudcover: weatherData.hourly.cloudcover[weatherData.hourly.time.findIndex(t => t === weatherData.current_weather.time)],
-          uv_index: weatherData.hourly.uv_index[weatherData.hourly.time.findIndex(t => t === weatherData.current_weather.time)],
-          precipitation: weatherData.hourly.precipitation[weatherData.hourly.time.findIndex(t => t === weatherData.current_weather.time)]
-        }, unitSystem);
-
-        card.appendChild(currentBlock);
-        card.insertAdjacentHTML("beforeend", renderExtraMetrics({ 
-          ...weatherData.current_weather,
-          relativehumidity_2m: weatherData.hourly.relativehumidity_2m[weatherData.hourly.time.findIndex(t => t === weatherData.current_weather.time)],
-          pressure_msl: weatherData.hourly.pressure_msl[weatherData.hourly.time.findIndex(t => t === weatherData.current_weather.time)],
-          cloudcover: weatherData.hourly.cloudcover[weatherData.hourly.time.findIndex(t => t === weatherData.current_weather.time)],
-          uv_index: weatherData.hourly.uv_index[weatherData.hourly.time.findIndex(t => t === weatherData.current_weather.time)],
-          precipitation: weatherData.hourly.precipitation[weatherData.hourly.time.findIndex(t => t === weatherData.current_weather.time)]
-        }, unitSystem));
-
-        // Hourly Section
-        const hourlySection = renderHourlyForecast({
-          time: weatherData.hourly.time,
-          temperature_2m: weatherData.hourly.temperature_2m,
-          weathercode: weatherData.hourly.weathercode
-        }, unitSystem, weatherData.current_weather.time);
-        card.appendChild(hourlySection);
-
-        // Daily Section
-        const dailySection = renderDailyForecast(weatherData.daily, unitSystem);
-        card.appendChild(dailySection);
-
-        // Alerts Section
-        const alertsSection = renderAlerts(alertsData);
-        if (alertsSection) card.appendChild(alertsSection);
-
-        // Map Placeholder
-        const mapSection = renderMapPlaceholder(coords.latitude, coords.longitude);
-        card.appendChild(mapSection);
-
-        // Unit Toggle
-        const toggle = renderUnitToggle();
-        card.appendChild(toggle);
-
-        // Theme
-        const localDate = new Date(weatherData.current_weather.time);
-        setTheme(weatherData.current_weather.weathercode, localDate.getHours());
-
-        weatherResult.appendChild(card);
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        hideLoader();
-      }
-    }
-
-    /* ================================
-       Show Suggestions as User Types
-       ================================ */
-    async function showSuggestions(query) {
-      if (!query.trim()) {
-        suggestionsBox.style.display = "none";
-        return;
-      }
-      try {
-        const results = await fetchCoordinates(query);
-        suggestionsList.innerHTML = "";
-        results.forEach(loc => {
-          const li = document.createElement("li");
-          const admin = loc.admin1 ? `, ${loc.admin1}` : "";
-          li.textContent = `${loc.name}${admin}, ${loc.country}`;
-          li.addEventListener("click", () => {
-            locationInput.value = li.textContent;
-            suggestionsBox.style.display = "none";
-          });
-          suggestionsList.appendChild(li);
-        });
-        suggestionsBox.style.display = "block";
-      } catch {
-        suggestionsBox.style.display = "none";
-      }
-    }
-
-    /* ================================
-       Search by Location Input
-       ================================ */
-    async function searchByLocation() {
-      const query = locationInput.value.trim();
-      if (!query) {
-        showError("Please enter a location to search.");
-        return;
-      }
-      clearError();
-      suggestionsBox.style.display = "none";
-      try {
-        showLoader();
-        const matches = await fetchCoordinates(query);
-        const best = matches[0];
-        const coords = {
-          latitude: best.latitude,
-          longitude: best.longitude,
-          name: best.name,
-          country: best.country,
-          admin1: best.admin1
-        };
-        lastCoords = coords;
-        await loadWeather(coords);
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        hideLoader();
-      }
-    }
-
-    /* ================================
-       Search by Geolocation
-       ================================ */
-    function searchByCurrentLocation() {
-      clearError();
-      suggestionsBox.style.display = "none";
-      weatherResult.innerHTML = "";
-      if (!navigator.geolocation) {
-        showError("Geolocation not supported.");
-        return;
-      }
-      showLoader();
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          try {
-            const { latitude, longitude } = position.coords;
-            const meta = { latitude, longitude, name: "Current Location", country: "", admin1: "" };
-            lastCoords = meta;
-            await loadWeather(meta);
-          } catch (err) {
-            showError(err.message);
-          } finally {
-            hideLoader();
-          }
-        },
-        () => {
-          hideLoader();
-          showError("Unable to retrieve location. Please allow access or search manually.");
-        }
-      );
-    }
-
-    /* ================================
-       Event Listeners
-       ================================ */
-    searchButton.addEventListener("click", searchByLocation);
-    currentLocationBtn.addEventListener("click", searchByCurrentLocation);
-    locationInput.addEventListener("keyup", (e) => {
-      if (e.key === "Enter") {
-        searchByLocation();
-      } else {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-          showSuggestions(locationInput.value);
-        }, 300);
-      }
-    });
-    document.addEventListener("click", (e) => {
-      if (!suggestionsBox.contains(e.target) && e.target !== locationInput) {
-        suggestionsBox.style.display = "none";
-      }
-    });
-  </script>
 </body>
 </html>
