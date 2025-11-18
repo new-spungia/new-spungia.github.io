@@ -5,19 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Spungia - Official Website</title>
     
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Geist Font from Google Fonts (Weights 300 & 400) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Requesting specific weights 300 (light) and 400 (regular) -->
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome 7.0.1 CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     
-    <!-- Custom Styles -->
     <style>
         body {
             /* Changed font to Geist, default weight 300 */
@@ -56,11 +51,21 @@
             color: #4a5568; /* text-gray-600 */
             font-size: 0.8em;
         }
+        /* Custom list style for highlights */
+        .highlight-list li::before {
+            content: '\f058'; /* Font Awesome circle-check for a stronger highlight */
+            font-family: 'Font Awesome 7 Free';
+            font-weight: 900;
+            position: absolute;
+            left: -1.75rem;
+            top: 0.25rem;
+            color: #3b82f6; /* text-blue-500 */
+            font-size: 0.8em;
+        }
     </style>
 </head>
 <body class="bg-black text-gray-300 antialiased">
 
-    <!-- Header & Navigation -->
     <header class="bg-black shadow-lg sticky top-0 z-50 border-b border-gray-900">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-2xl font-normal text-white">
@@ -70,11 +75,10 @@
             <div class="space-x-6 hidden md:flex items-center">
                 <a href="#home" class="text-gray-400 hover:text-white transition duration-300">Home</a>
                 <a href="#history" class="text-gray-400 hover:text-white transition duration-300">History</a>
-                <a href="#leadership" class="text-gray-400 hover:text-white transition duration-300">Leadership</a>
+                <a href="#leadership" class="text-gray-400 hover:text-white transition duration-3A00">Leadership</a>
                 <a href="#charter" class="text-gray-400 hover:text-white transition duration-300">Charter</a>
-                <a href="https://4simpleproblems.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-300">4SP</a>
+                <a href="https://v5-4simpleproblems.github.io" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-300">4SP</a>
             </div>
-            <!-- Mobile Menu Button (no functionality, just for show) -->
             <div class="md:hidden">
                 <button class="text-white">
                     <i class="fa-solid fa-bars text-2xl"></i>
@@ -83,10 +87,8 @@
         </nav>
     </header>
 
-    <!-- Main Content -->
     <main class="container mx-auto px-6">
 
-        <!-- Hero Section -->
         <section id="home" class="text-center py-24 border-b border-gray-900">
             <h2 class="text-5xl sm:text-6xl font-light tracking-tighter mb-4 leading-tight text-white">Welcome to New Spungia</h2>
             <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">Forged in friendship, built on governance. Formerly the Republic of Spungania.</p>
@@ -96,16 +98,13 @@
             </a>
         </section>
 
-        <!-- History Section -->
         <section id="history" class="py-20 border-b border-gray-900">
             <h3 class="text-4xl font-light text-center mb-12 text-white">
                 <i class="fa-solid fa-scroll mr-3 text-gray-600"></i>
                 Our Storied History
             </h3>
             
-            <div class="space-y-16 max-w-6xl mx-auto"> <!-- UPDATED: max-w-4xl changed to max-w-6xl -->
-                <!-- Chapter 1 -->
-                <div class="bg-gray-950/50 border border-gray-800/50 rounded-xl shadow-lg p-8 transition duration-300">
+            <div class="space-y-16 max-w-6xl mx-auto"> <div class="bg-gray-950/50 border border-gray-800/50 rounded-xl shadow-lg p-8 transition duration-300">
                     <i class="fa-solid fa-face-laugh-beam text-4xl text-blue-500 mb-4"></i>
                     <h4 class="text-2xl font-normal mb-3 text-white">Chapter 1: The "New Fun Slides"</h4>
                     <p class="text-gray-400 text-lg leading-relaxed">
@@ -113,7 +112,6 @@
                     </p>
                 </div>
                 
-                <!-- Chapter 2 -->
                 <div class="bg-gray-950/50 border border-gray-800/50 rounded-xl shadow-lg p-8 transition duration-300">
                     <i class="fa-solid fa-palette text-4xl text-green-500 mb-4"></i>
                     <h4 class="text-2xl font-normal mb-3 text-white">Chapter 2: The Birth of "Spungbung" & The Republic</h4>
@@ -122,7 +120,6 @@
                     </p>
                 </div>
                 
-                <!-- Chapter 3 -->
                 <div class="bg-gray-950/50 border border-gray-800/50 rounded-xl shadow-lg p-8 transition duration-300">
                     <i class="fa-solid fa-gavel text-4xl text-yellow-500 mb-4"></i>
                     <h4 class="text-2xl font-normal mb-3 text-white">Chapter 3: The Trial of Zachary Bechar</h4>
@@ -131,7 +128,6 @@
                     </p>
                 </div>
 
-                <!-- Chapter 4: The First Chinchillian War (Corrected to include physical details) -->
                 <div class="bg-gray-950/50 border border-gray-800/50 rounded-xl shadow-lg p-8 transition duration-300">
                     <i class="fa-solid fa-book-skull text-4xl text-red-500 mb-4"></i>
                     <h4 class="text-2xl font-normal mb-3 text-white">Chapter 4: The First Chinchillian War</h4>
@@ -140,7 +136,6 @@
                     </p>
                 </div>
 
-                <!-- Chapter 5: The First General Election -->
                 <div class="bg-gray-950/50 border border-gray-800/50 rounded-xl shadow-lg p-8 transition duration-300">
                     <i class="fa-solid fa-check-to-slot text-4xl text-purple-500 mb-4"></i>
                     <h4 class="text-2xl font-normal mb-3 text-white">Chapter 5: The First General Election (Nov 17, 2025)</h4>
@@ -159,35 +154,29 @@
             </div>
         </section>
 
-        <!-- Leadership Section -->
         <section id="leadership" class="py-20 border-b border-gray-900">
             <h3 class="text-4xl font-light text-center mb-12 text-white">
                 <i class="fa-solid fa-users mr-3 text-gray-600"></i>
                 Governance & Leadership
             </h3>
             
-            <p class="text-lg text-gray-400 max-w-4xl mx-auto text-center mb-16"> <!-- UPDATED: max-w-3xl changed to max-w-4xl -->
+            <p class="text-lg text-gray-400 max-w-4xl mx-auto text-center mb-16">
                 New Spungia is guided by the Charter of Governance and led by its elected officials.
             </p>
 
-            <!-- Current Administration -->
             <h4 class="text-2xl font-normal mb-8 text-white text-center">Current Administration (As of Nov 17, 2025)</h4>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto"> <!-- UPDATED: max-w-5xl changed to max-w-6xl -->
-                <!-- President -->
-                <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl shadow-lg text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto"> <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl shadow-lg text-center">
                     <h4 class="text-2xl font-normal text-blue-400">The President</h4>
                     <p class="text-lg font-normal mt-2 mb-1 text-white">Mr. Wyatt Belknap</p>
                     <p class="text-gray-400">As the newly elected President, Mr. Belknap holds the power to initiate legislation, exercise a limited veto, and serve as the final resolution in legislative disputes.</p>
                 </div>
                 
-                <!-- Executive Ruler -->
                 <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl shadow-lg text-center">
                     <h4 class="text-2xl font-normal text-blue-400">Senator & Executive Ruler</h4>
                     <p class="text-lg font-normal mt-2 mb-1 text-white">Mr. Jack Crawford</p>
                     <p class="text-gray-400">Re-elected to his post, Mr. Crawford guides the legislative agenda, holds decisive voting authority, and is empowered to enact Minor Legislation.</p>
                 </div>
                 
-                <!-- Executor -->
                 <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl shadow-lg text-center">
                     <h4 class="text-2xl font-normal text-blue-400">Senator & Executor</h4>
                     <p class="text-lg font-normal mt-2 mb-1 text-white">Mr. Zachary Rose</p>
@@ -195,10 +184,8 @@
                 </div>
             </div>
 
-            <!-- Founding Administration -->
             <h4 class="text-2xl font-normal mb-8 mt-20 text-white text-center">Founding Administration (Oct - Nov 2025)</h4>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto"> <!-- UPDATED: max-w-5xl changed to max-w-6xl -->
-                <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl shadow-lg text-center opacity-70">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto"> <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl shadow-lg text-center opacity-70">
                     <h4 class="text-2xl font-normal text-blue-400/80">Founding President</h4>
                     <p class="text-lg font-normal mt-2 mb-1 text-white">Mr. Aidyn Kerns</p>
                     <p class="text-gray-500">The first president of the Republic, who established the initial government and oversaw the creation of the Charter.</p>
@@ -210,9 +197,7 @@
                 </div>
             </div>
             
-            <!-- Other Governance -->
-            <div class="max-w-6xl mx-auto mt-20 space-y-8"> <!-- UPDATED: max-w-4xl changed to max-w-6xl -->
-                <div>
+            <div class="max-w-6xl mx-auto mt-20 space-y-8"> <div>
                     <h4 class="text-2xl font-normal mb-4 text-white text-center">Political Parties</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="bg-gray-950/50 border border-gray-800/50 p-6 rounded-xl">
@@ -243,85 +228,378 @@
 
         </section>
         
-        <!-- Charter of Governance Section -->
         <section id="charter" class="py-20 border-b border-gray-900">
             <h3 class="text-4xl font-light text-center mb-16 text-white">
                 <i class="fa-solid fa-book-gavel mr-3 text-gray-600"></i>
                 Charter of Governance
             </h3>
             
-            <div class="max-w-6xl mx-auto space-y-12 text-gray-400 text-lg leading-relaxed"> <!-- UPDATED: max-w-4xl changed to max-w-6xl -->
+            <div class="max-w-6xl mx-auto space-y-12 text-gray-400 text-lg leading-relaxed">
 
-                <!-- Part I -->
-                <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
-                    <h4 class="text-2xl font-normal text-white mb-4">Part I: Principles of Conduct and Digital Integrity</h4>
-                    <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 1: Code of Conduct for Digital Spaces</h5>
-                    <ul class="charter-list">
-                        <li><strong>Section 1.1.1:</strong> Any act of deletion, alteration, or unauthorized modification of official rule sets, governmental statutes, or presentation slides is strictly prohibited.</li>
-                        <li><strong>Section 1.1.2:</strong> Presentation slides designated for "4simpleproblems (4SP)" shall not be deleted or altered without authorization.</li>
-                        <li><strong>Section 1.1.3:</strong> A maximum limit of five (5) animated GIFs is imposed per slide. Excessive propagation of GIFs is classified as digital spam.</li>
-                        <li><strong>Section 1.2.2:</strong> Designated user slides are inviolable and shall not be subject to editing, modification, or deletion by any other party.</li>
-                        <li><strong>Section 1.4.1 (First Infraction):</strong> A three (3) day suspension of all access and editing privileges.</li>
-                        <li><strong>Section 1.4.2 (Subsequent Infractions):</strong> A third (3rd) or subsequent infraction shall result in permanent and irrevocable revocation of all access rights.</li>
+                <div class="p-8 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl">
+                    <h4 class="text-3xl font-normal text-white mb-4 border-b border-gray-700 pb-3">Key Principles</h4>
+                    <ul class="charter-list highlight-list text-gray-300">
+                        <li><strong class="text-white">Digital Integrity is Mandatory:</strong> The deletion, alteration, or unauthorized modification of official rule sets, slides, or governmental statutes is strictly prohibited (Section 1.1.1).</li>
+                        <li><strong class="text-white">Content Regulation:</strong> A limit of five (5) animated GIFs is imposed per slide to prevent digital spam and lag (Section 1.1.3).</li>
+                        <li><strong class="text-white">Executive Power:</strong> The President serves a one-month term and holds the right to veto legislation (Section 4.1.1, 2.2.3).</li>
+                        <li><strong class="text-white">Senate Authority:</strong> The Senate (Executive Ruler & Executor) is elected for one-month terms and manages the legislative and enforcement agendas (Section 2.1.1, 2.3.1).</li>
+                        <li><strong class="text-white">Strict Penalties:</strong> A first infraction results in a three (3) day suspension; a third or subsequent infraction results in permanent and irrevocable revocation of access (Section 1.4.1, 1.4.2).</li>
                     </ul>
                 </div>
 
-                <!-- Part II -->
-                <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
-                    <h4 class="text-2xl font-normal text-white mb-4">Part II: The Framework of Republican Governance</h4>
-                    <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 2 & 3: Senate, Executive Authorities</h5>
-                    <ul class="charter-list">
-                        <li><strong>Section 2.1.1:</strong> The Senate comprises two principal leadership positions: the Executive Ruler and the Executor.</li>
-                        <li><strong>Section 2.2.2:</strong> In the event of a tie vote between the Executive Ruler and Executor on Major Legislation, the President shall cast the deciding vote.</li>
-                        <li><strong>Section 2.2.3 (Presidential Veto):</strong> The President retains the absolute right to veto any legislative act. This veto is final and not subject to override. (Note: Section 4.2.2 limits this to 3 vetoes per term).</li>
-                        <li><strong>Section 2.3.1:</strong> Senators shall be elected to serve a term of one (1) calendar month.</li>
-                        <li><strong>Section 4.1.1:</strong> The President shall hold office for a fixed term of one (1) consecutive month.</li>
-                    </ul>
-                </div>
-                
-                <!-- Part III -->
-                <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
-                    <h4 class="text-2xl font-normal text-white mb-4">Part III: Status, Rights, and Judicial Frameworks</h4>
-                    <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 5 & 6: Articles of Trust</h5>
-                    <ul class="charter-list">
-                        <li><strong>Section 5.1.1:</strong> Trusted Citizens are exempt from disciplinary actions by the Executive Authority.</li>
-                        <li><strong>Section 5.1.2:</strong> Trusted Citizens shall not possess any voting rights within the legislative or executive processes.</li>
-                        <li><strong>Section 5.1.4:</strong> Approval of Trusted Citizen status requires a joint deliberation and majority vote from the President and the Senate.</li>
-                        <li><strong>Section 6.1.1:</strong> Designated Citizens are exempt from any punitive actions or influence from the Executor.</li>
-                        <li><strong>Section 6.2.1:</strong> Designated Citizens are formally disenfranchised and barred from all electoral and legislative processes.</li>
-                    </ul>
-                </div>
-                
-                <!-- Part IV -->
-                <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
-                    <h4 class="text-2xl font-normal text-white mb-4">Part IV: Electoral Frameworks and Legislative Enactment</h4>
-                    <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 7: Bylaws Governing Elections</h5>
-                    <ul class="charter-list">
-                        <li><strong>Section 7.1.3:</strong> No legislative voting shall be permitted on any day officially designated for a scheduled election.</li>
-                        <li><strong>Section 7.2.1 (Minor Laws):</strong> The sole authority for enactment of Minor Laws rests with the Executive Ruler.</li>
-                        <li><strong>Section 7.2.2 (Major Laws):</strong> Must first be submitted for approval to both members of the Senatorial Council. If they cannot reach consensus, it is submitted to the President. If the President is undecided, it is put to a popular referendum.</li>
-                        <li><strong>Section 7.2.3 (Vascular Laws):</strong> Any set of four (4) or more laws presented concurrently. Requires approval from at least two (2) of the three (3) officials (President, Executive Ruler, Executor).</li>
-                        <li><strong>Section 7.2.4 (Removing Laws):</strong> No Power of Government can remove a law. This requires a 6-step voting process involving a citizen, the President, the Senators (100% agreement), Trusted Citizens (90% agreement), and Regular Citizens (75% agreement).</li>
-                    </ul>
+                <div class="text-center pt-4">
+                    <button id="charter-toggle-button" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-normal rounded-xl text-white bg-white/10 ring-1 ring-white/20 hover:bg-white/20 transition">
+                        <i class="fa-solid fa-file-invoice mr-2"></i>
+                        Go to Full Charter of Governance
+                    </button>
                 </div>
 
-                <!-- Part X: Colonies -->
-                <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
-                    <h4 class="text-2xl font-normal text-white mb-4">Part X: The Establishment of Colonies</h4>
-                    <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 13: Establishment of Colonies</h5>
-                    <ul class="charter-list">
-                        <li><strong>Article 13.1:</strong> Establishment of an official colony requires an official Republic of Spung Charter (RSC). The RSC must secure affirmative approval from a minimum of two (2) designated Council members.</li>
-                        <li><strong>Article 13.7:</strong> The designation and naming of a colony shall be the prerogative of the Council, following the submission of a suggestion by the Governor.</li>
-                    </ul>
-                </div>
+                <div id="full-charter-details" class="space-y-12 transition-all duration-500 ease-in-out hidden">
 
-            </div>
+                    <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                        <h4 class="text-2xl font-normal text-white mb-4">Part I: Principles of Conduct and Digital Integrity</h4>
+                        <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 1: The Code of Conduct for Digital Spaces</h5>
+                        
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Section 1.1: Upholding Content Integrity</h6>
+                        <ul class="charter-list">
+                            <li><strong>1.1.1:</strong> Any act of deletion, alteration, or unauthorized modification of the official rule sets, governmental statutes, or convened meeting presentation slides is hereby declared a severe offense and is strictly prohibited.</li>
+                            <li><strong>1.1.2:</strong> Presentation slides specifically designated for the purpose of promoting or informing about "4simpleproblems (4SP)" are to be regarded as foundational content and shall not be subjected to deletion or alteration by any user without explicit authorization from the governing body.</li>
+                            <li><strong>1.1.3:</strong> The dissemination and inclusion of animated Graphics Interchange Format (GIF) files on any given slide are hereby regulated. A maximum limit of five (5) such files is imposed per slide. Any excessive or unsolicited propagation of GIFs shall be classified as digital spam and addressed accordingly under established penalty clauses.</li>
+                        </ul>
+                        
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Section 1.2: Allocation and Sanctity of User Content Domains</h6>
+                        <ul class="charter-list">
+                            <li><strong>1.2.1:</strong> To foster individual expression and responsibility, each duly recognized user shall be allocated specific, dedicated presentation slides.</li>
+                            <li><strong>1.2.2:</strong> These designated slides constitute the exclusive content domain of the assigned user. Such domains are inviolable and shall not be subject to editing, modification, or deletion by any other party, ensuring personal digital sovereignty within the platform.</li>
+                        </ul>
+
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Section 1.3: Procedures for User Onboarding and System Access</h6>
+                        <ul class="charter-list">
+                            <li><strong>1.3.1:</strong> Formal requests pertaining to the addition of new users to the Republic's digital platform or slide system shall be formally directed to designated administrators: Aidyn, Zach R, or Jack. These individuals are tasked with overseeing the onboarding process.</li>
+                        </ul>
+
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Section 1.4: Enforcement Mechanisms and Penalty Framework</h6>
+                        <ul class="charter-list">
+                            <li><strong>1.4.1: First Infraction:</strong> Any individual found to be in violation of the rules delineated within this chapter shall incur a mandatory penalty, consisting of a three (3) day suspension of all access and editing privileges pertaining to the presentation slides. This period is intended for reflection and corrective action.</li>
+                            <li><strong>1.4.2: Subsequent Infractions:</strong> A third (3rd) or any subsequent infraction of these established rules by the same individual shall result in the permanent and irrevocable revocation of all access rights to the platform and its associated slide system. This measure ensures the integrity and stability of the Republic's digital infrastructure.</li>
+                        </ul>
+
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Section 1.5: Protocols for Official Communication and Meetings</h6>
+                        <ul class="charter-list">
+                            <li><strong>1.5.1:</strong> All official governmental and senatorial meetings, duly convened by the presiding Senators and Presidents, shall be formally announced and communicated through the designated meeting slides. This ensures consistent and authoritative dissemination of critical information.</li>
+                        </ul>
+
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Section 1.6: Restrictions on Prohibited Content</h6>
+                        <ul class="charter-list">
+                            <li><strong>1.6.1:</strong> The deletion, unauthorized modification, or the introduction of extraneous content that alters the integrity of any material pertaining to the official Spongebob episodes, when presented within the Republic's official digital spaces, is strictly prohibited.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                        <h4 class="text-2xl font-normal text-white mb-4">Part II: The Framework of Republican Governance</h4>
+                        
+                        <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 2: The Senate and Legislative Authority</h5>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article I: Structure and Leadership of the Senate</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 2.1.1: Senate Offices:</strong> The esteemed Senate of the Republic shall comprise two (2) principal leadership positions: the Executive Ruler and the Executor. These individuals shall guide the legislative agenda and decision-making processes.</li>
+                            <li><strong>Section 2.1.2: Decisive Voting Authority:</strong> The Executive Ruler and the Executor shall hold the authority to cast the decisive votes on all matters of Major Legislation brought forth and passed by the regular membership of the Senate, thereby ensuring clear direction and resolution.</li>
+                        </ul>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article II: Legislative Processes and Executive Prerogatives</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 2.2.1: Definition of Major Legislation:</strong> For the comprehensive interpretation of this governing document, "Major Legislation" shall be defined as any proposed statute, decree, or law that consists of more than one (1) distinct part or component.</li>
+                            <li><strong>Section 2.2.2: Mechanism for Resolving Tie Votes:</strong> In the infrequent event that the Executive Ruler and the Executor are unable to achieve a unanimous consensus on any Major Legislation, a formal tie vote shall be declared. In such instances, the President of the Republic shall assume the role of final arbiter, casting the deciding vote to resolve the legislative impasse.</li>
+                            <li><strong>Section 2.2.3: The Presidential Veto Power:</strong> The President of the Republic retains the inherent and absolute right to veto any legislative act, irrespective of its classification as Minor or Major Legislation. A presidential veto, once exercised, shall be considered final and absolute, not subject to override by any legislative body or process.</li>
+                        </ul>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article III: Election and Tenure of Senators</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 2.3.1: Senatorial Term:</strong> Senators shall be elected to serve a dedicated term of office lasting one (1) calendar month. This ensures regular engagement and representation.</li>
+                            <li><strong>Section 2.3.2: Schedule for Senatorial Elections:</strong> Regular elections for all Senatorial positions shall be conducted on a standardized monthly basis. The inaugural election to establish the first cohort of Senators shall be held on the seventeenth (17th) day of November.</li>
+                        </ul>
+
+                        <h5 class="text-xl font-normal text-gray-200 mt-6 mb-3">Chapter 3: Executive Authorities and Their Mandates</h5>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article IV: Powers and Limitations of the Executive Ruler</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 3.4.1: Authority Over Minor Legislation:</strong> The Executive Ruler is hereby vested with the authority to promulgate and enact Minor Legislation. However, this legislative power is constrained, limited to the creation of no more than one (1) minor law per weekly cycle.</li>
+                            <li><strong>Section 3.4.2: Designation of Current Office Holder:</strong> Mr. Jack Crawford is hereby officially appointed and recognized as the Executive Ruler. He shall assume all powers and operate within the limitations prescribed by this document until the subsequent scheduled election for this office.</li>
+                        </ul>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article V: Powers and Responsibilities of the Executor</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 3.5.1: Authority of Discretionary Removal:</strong> The Executor possesses the authority to remove any individual from participation within "The slides" (referring to the presentation platform). This authority is circumscribed by specific protected classes of persons, namely:
+                                <ul class="list-disc pl-8 mt-2 text-gray-400">
+                                    <li>Individuals formally recognized and designated as Trusted Citizens.</li>
+                                    <li>Any individual who is officially undergoing the process of running for a Senate position.</li>
+                                    <li>Any individual who is currently serving as an active member of the Senate.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Section 3.5.2: Authority of Discretionary Modification:</strong> Beyond removal, the Executor shall also possess the authority to remove or meticulously edit the content of any "slide" belonging to a regular Citizen, subject to the broader provisions of this charter.</li>
+                            <li><strong>Section 3.5.3: Designation of Current Office Holder:</strong> Mr. Zachary Rose is hereby officially appointed and recognized as the Executor. He shall assume all powers and operate within the limitations prescribed by this document until the subsequent scheduled election for this office.</li>
+                        </ul>
+
+                        <h5 class="text-xl font-normal text-gray-200 mt-6 mb-3">Chapter 4: The Presidency and Executive Powers</h5>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article I: Presidential Term and Succession</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 4.1.1: Duration of Presidential Term:</strong> The President of the Republic shall hold office for a fixed term of one (1) consecutive months. The subsequent election to fill the office of President shall be conducted on the seventeenth (17th) day of November.</li>
+                            <li><strong>Section 4.1.2: Identification of Incumbent:</strong> The current incumbent holding the office of President is Mr. Aidyn Kerns.</li>
+                        </ul>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article II: Presidential Legislative Powers and Operational Constraints</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 4.2.1: Power to Initiate Legislation:</strong> The President of the Republic is formally authorized to propose, introduce, and champion new legislative initiatives.</li>
+                            <li><strong>Section 4.2.2: The Presidential Veto:</strong> The President holds the power to exercise a veto over any legislation duly passed by the legislative body. This significant power is subject to a strict limitation, capped at a maximum of three (3) vetoes per single presidential term.</li>
+                            <li><strong>Section 4.2.3: Resolution of Legislative Disputes:</strong> In the event of any dispute or significant disagreement arising between the President and the legislative body (comprising the senators), the final determination rendered by the President shall serve as the conclusive resolution, binding upon all parties.</li>
+                            <li><strong>Section 4.2.4: The Advisory Referendum Mechanism:</strong> Should the President find themselves undecided or seeking broader consensus on a particular piece of legislation, the matter may be formally referred to all citizens for a direct, non-binding vote. This process is commonly known as an advisory referendum.</li>
+                            <li><strong>Section 4.2.5: Stipulations for "Vascular Laws":</strong> Any proposed legislation formally classified as a "Vascular law" – defined herein as any set of four (4) or more laws presented concurrently for consideration – shall be subject to a dual vote. This vote requires the approval of both the President and the collective body of the two (2) Senators.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                        <h4 class="text-2xl font-normal text-white mb-4">Part III: Status, Rights, and Judicial Frameworks</h4>
+                        
+                        <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 5: Articles of Trust and Governance</h5>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article I: The Status of Trusted Citizens</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 5.1.1: Privileges Afforded to Trusted Citizens:</strong> Individuals formally recognized and designated as Trusted Citizens shall be granted exemption from any punitive or disciplinary actions that may be initiated by the Executive Authority. This exemption is contingent upon adherence to all other provisions outlined within this document.</li>
+                            <li><strong>Section 5.1.2: Limitations Imposed Upon Trusted Citizens:</strong> Notwithstanding their privileged status, Trusted Citizens shall not possess any voting rights within the legislative or executive processes of the Republic's governing bodies. Their role is primarily advisory and observational in these capacities.</li>
+                            <li><strong>Section 5.1.3: Application Protocol for Trusted Citizen Status:</strong> A formal, standardized application process shall be meticulously established for any individual seeking the esteemed designation of Trusted Citizen. All such applications must be formally submitted for thorough review and consideration.</li>
+                            <li><strong>Section 5.1.4: Joint Deliberation on Applications:</strong> The approval or disapproval of all applications for Trusted Citizen status shall be determined through a joint deliberation process. This process involves both the President and the Senate, who shall render their decision based on a majority vote.</li>
+                            <li><strong>Section 5.1.5: Revocation of Trusted Citizen Status:</strong> The esteemed status of Trusted Citizen, once granted, may be revoked. Such revocation requires a formal vote, necessitating a majority agreement from both the President and the Senate.</li>
+                        </ul>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article II: Procedures Governing Judicial Proceedings</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 5.2.1: Expungement of Case Records:</strong> Any proposal seeking the formal expungement or the removal of an individual's specific case record, or any presentation made within a trial proceeding, shall be subject to a formal vote by the relevant judicial or governing body.</li>
+                        </ul>
+
+                        <h5 class="text-xl font-normal text-gray-200 mt-6 mb-3">Chapter 6: Bylaws Governing Designated Citizens</h5>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article III: Exemption from Executor Actions</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 6.1.1: Protection from Arbitrary Sanctions:</strong> Individuals formally recognized as Designated Citizens shall be explicitly exempt from any and all punitive actions, threats, or undue influence that might be levied by the Executor of this body. The Executor is hereby explicitly precluded from imposing sanctions, liabilities, or making arbitrary determinations against such Designated Citizens.</li>
+                        </ul>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article IV: Restrictions on Participation in Governance</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 6.2.1: Disenfranchisement from Political Processes:</strong> Designated Citizens are hereby formally disenfranchised. They are barred from participating in any electoral processes, casting legislative votes, or engaging in deliberative decision-making procedures within the jurisdiction of this Republic.</li>
+                        </ul>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article V: The Application and Adjudication Process for Designated Citizen Status</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 6.3.1: Formal Application Requirements:</strong> A formal application protocol shall be meticulously established for individuals aspiring to achieve the designation of Designated Citizen. This protocol mandates the submission of all prescribed documentation and strict adherence to specified procedural requirements.</li>
+                            <li><strong>Section 6.3.2: Review and Final Adjudication:</strong> All applications submitted for Designated Citizen status shall undergo a comprehensive review and final adjudication. This process will be conducted by the collective authority comprising the President and the Senatorial Council. Their decision to approve or disapprove any such application shall be deemed final and irrevocably binding.</li>
+                        </ul>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article VI: Revocation of Designated Citizen Status</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 6.4.1: Unilateral Revocation Clause:</strong> The status of Designated Citizen may be subject to unilateral revocation. Such a revocation shall necessitate a formal vote, requiring the agreement of both the President and the Senatorial Council.</li>
+                        </ul>
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article VII: Procedural Guidelines for Formal Proceedings</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 6.5.1: Validation of Submitted Materials:</strong> During the course of any formal trial or proceeding, a vote may be duly initiated for the specific purpose of removing, striking, or otherwise invalidating any submitted documentation, evidentiary presentations, or official records that pertain to a party involved in said proceeding.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                        <h4 class="text-2xl font-normal text-white mb-4">Part IV: Electoral Frameworks and Legislative Enactment</h4>
+                        <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 7: Bylaws Governing Elections and the Passage of Laws</h5>
+                        
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article I: Electoral Schedules and Prohibitions</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 7.1.1: Senatorial Election Cadence:</strong> Elections for the esteemed position of Senator shall be conducted on a consistent monthly basis, ensuring continuous representation.</li>
+                            <li><strong>Section 7.1.2: Presidential Election Cadence:</strong> Elections for the office of President shall be conducted on a bi-monthly schedule, occurring every two months, to maintain executive continuity.</li>
+                            <li><strong>Section 7.1.3: Prohibition on Legislative Voting During Election Periods:</strong> To ensure the integrity of the electoral process, no legislative voting proceedings, regardless of the classification of the law under consideration, shall be permitted or conducted on any day officially designated for a scheduled election.</li>
+                        </ul>
+
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Article II: Classification, Process, and Enactment of Laws</h6>
+                        <ul class="charter-list">
+                            <li><strong>Section 7.2.1: Promulgation of Minor Laws:</strong> The sole authority and final discretion for the promulgation and enactment of any legislation classified as a Minor Law shall rest with the Executive Ruler, acting as President.</li>
+                            <li><strong>Section 7.2.2: Process for Enacting Major Laws:</strong>
+                                <ul class="list-decimal pl-8 mt-2 text-gray-400" style="list-style-type: lower-alpha;">
+                                    <li>Legislation classified as a Major Law must first be formally submitted for the approval of both members of the Senatorial Council.</li>
+                                    <li>In the event that the Senatorial Council cannot reach a unanimous decision or consensus on a proposed Major Law, the matter shall subsequently be submitted to the President for a final determination.</li>
+                                    <li>Should the President be unable to render a definitive decision or remain undecided on a Major Law after its submission, the proposed legislation shall then be put forth for a direct vote by the general citizenry, commonly referred to as a popular referendum.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Section 7.2.3: Special Provisions for Vascular Laws:</strong>
+                                <ul class="list-decimal pl-8 mt-2 text-gray-400" style="list-style-type: lower-alpha;">
+                                    <li>Any legislation formally designated as a Vascular Law shall be subject to a vote by a specific quorum: the President and the two (2) Senators.</li>
+                                    <li>For a Vascular Law to be formally approved and enacted into law, a minimum of two (2) out of the three (3) aforementioned officials must cast affirmative votes.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Section 7.2.4 Actions of removing laws</strong>
+                                <ul class="list-decimal pl-8 mt-2 text-gray-400" style="list-style-type: lower-alpha;">
+                                    <li>No Power of Government can remove a law including any council member or the assistant </li>
+                                    <li>
+                                        The Process of Removing a Law includes a 6 step voting process
+                                        <ol class="list-decimal pl-8 mt-2 text-gray-400">
+                                            <li>A citizen or trusted citizen (not a Council member) will bring it up to one of the council member</li>
+                                            <li>The president will decide if he thinks it is a good change or removal</li>
+                                            <li>Then if the president thinks it is a good change he will give this to the senators and they need to be in 100% agreement</li>
+                                            <li>If the senators are in 100% agreement they will send it to the trusted citizens they will vote and at least 90% need to agree</li>
+                                            <li>If the Trusted citizens have 90% of the vote they will open a vote to the regular citizens and they will vote and 75% of the citizens have to pass the law</li>
+                                            <li>If all of that passes there will be a new removal or change  </li>
+                                            <li>Budgets and funding do not apply</li>
+                                            <li>If there is A mass remodeling section 7.2.4 will not apply <br> The end of the mass remodeling is Nov 17, 2025</li>
+                                        </ol>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><strong>Section 7.2.5 Passing of budgets or funding </strong>
+                                <ol class="list-decimal pl-8 mt-2 text-gray-400">
+                                    <li>If the budget brings up funding with the trusted citizens the citizens must vote</li>
+                                    <li>If the budgets calls for the council to fund something the council must vote</li>
+                                    <li>Budgets are  voted on by the council, the budget is used for funding </li>
+                                </ol>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                        <h4 class="text-2xl font-normal text-white mb-4">Part V: Governmental Offices and Official Roles</h4>
+                        <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 8: Statutes Governing the Office of the Council Assistant</h5>
+
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Section 8.1: Mandate and Scope of Official Authority</h6>
+                        <ul class="charter-list">
+                            <li><strong>8.1.1:</strong> The designated Council Assistant shall bear the primary responsibility for the aesthetic enhancement and structural refinement of all official presentation materials utilized by the Republic.</li>
+                            <li><strong>8.1.2:</strong> The Council Assistant is expressly prohibited from undertaking any substantive legislative or executive actions. This prohibition includes, but is not- limited to, the enactment of new legislation or the amendment of existing statutes. The Assistant's purview is strictly confined to the presentation and stylistic improvement of existing content.</li>
+                        </ul>
+
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Section 8.2: Selection Process and Term of Office</h6>
+                        <ul class="charter-list">
+                            <li><strong>8.2.1:</strong> The appointment of the Council Assistant shall be determined through the collective, consensus-driven decision of the Council.</li>
+                            <li><strong>8.2.2:</strong> The tenure of the Council Assistant shall be subject to periodic review. Such reviews will occur monthly, concurrently with the scheduled election of Senators. At the commencement of each Senatorial election cycle, the Council Assistant's position shall be rendered vacant pending a formal reappointment process.</li>
+                        </ul>
+
+                        <h6 class="text-lg font-normal text-gray-300 mt-4 mb-2">Section 8.3: Procedures for Removal from Office</h6>
+                        <ul class="charter-list">
+                            <li><strong>8.3.1:</strong> The Council reserves the unequivocal right to revoke the title and authority vested in the Council Assistant. Such a removal action requires a unanimous resolution, signifying a tripartite agreement among the Council members, to effectively and formally terminate the Assistant's appointment.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                        <h4 class="text-2xl font-normal text-white mb-4">Part VI: Procedural Guidelines for Adjudication and Trials</h4>
+                        <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 9: The Trial Procedures of the Republic</h5>
+
+                        <ul class="charter-list">
+                            <li><strong>Section 9.1: The Senatorial Vote in Trials:</strong> In matters of adjudication, the senators shall convene to cast votes determining the innocence or guilt of a Trusted Citizen. Furthermore, they shall decide whether to uphold or delete the accused's presentation slide, and whether an individual should be formally removed from participation.</li>
+                            <li><strong>Section 9.2: Presidential Intervention in Unresolved Cases:</strong> In the event that the Senators are unable to reach a consensus on a verdict or decision, the President shall intervene. Should the President remain undecided after deliberation, the accused shall be declared innocent.</li>
+                            <li><strong>Section 9.3: Custodianship of Trial Records:</strong> The Council Assistant is tasked with the diligent and accurate record-keeping and tracking of all official trials conducted within the Republic.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                        <h4 class="text-2xl font-normal text-white mb-4">Part VII: The Laws of Mass Remodoling</h4>
+                        <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 10: When Mass Remodeling is needed and How to Pass it and What it Means</h5>
+
+                        <ul class="charter-list">
+                            <li><strong>Section 10.1: Why to Bring up a Mass Remodeling</strong>
+                                <ol class="list-decimal pl-8 mt-2 text-gray-400">
+                                    <li>The citizens Believe the Charter of Governance` is outdated </li>
+                                    <li>The citizens Believe that the current Administration is doing bad things and a Bad job</li>
+                                    <li>There is a new Party to the slide show and the party wants to change or remove some of the laws (Have to be in the council to change Laws)</li>
+                                    <li>The citizens think the laws are not fair and need to be changed</li>
+                                </ol>
+                            </li>
+                            <li class="mt-3"><strong>Section 10.2: Process of Beginning a Mass Remodoling</strong>
+                                <ol class="list-decimal pl-8 mt-2 text-gray-400" style="list-style-type: lower-alpha;">
+                                    <li>If the citizens believe the charter of governance is outdated
+                                        <ol class="list-decimal pl-8 mt-2 text-gray-400">
+                                            <li>The citizens will bring up the problem they have with the trusted citizen council</li>
+                                            <li>The trusted citizens council will decide whether or not they will begin a type a mass remodeling they need to have a 85% agreement or more within the TCC</li>
+                                            <li>If the TCC decides to begin a Type a Mass remodeling they will go to the executive ruler </li>
+                                            <li>If the executive ruler decides that he does not want to help the citizens there will be a vote of the citizens if there is a vote of more than 50% of the citizens there will be a Type A Mass remodeling and the Citizens will pick a regular or trusted citizen to fill in the Role of Executive Ruler (This person will skip the first election and then go for re election the second election time.</li>
+                                            <li>If the Executive ruler decides to help the citizens, the citizens will elect a person do any citizen to tell the executive ruler what to do and the executive ruler will write the law or remove or change the law in a way that fits but still goes along with what the elected citizen says</li>
+                                        </ol>
+                                    </li>
+                                    <li class="mt-2">The citizens Believe that the current Administration is doing bad things and a Bad job
+                                        <ol class="list-decimal pl-8 mt-2 text-gray-400">
+                                            <li>The citizens will bring up the problem they have with the TCC</li>
+                                            <li> The trusted citizens will decide whether or not they want to begin a type b remodeling, it has to pass 75% of the TCC </li>
+                                            <li>The TCC will make an election and the citizens will vote on it, if the vote is 65% or more they will start a type b remodeling </li>
+                                            <li>They will decide whether or not they like any of the council members and if they want to keep one they keep their position. If they do not pick any council member they will vote on a president and they will fill out the rest of the positions, If they choose a council member to stay they will vote for the rest of the positions</li>
+                                        </ol>
+                                    </li>
+                                    <li class="mt-2">There is a new Party to the slide show and the party wants to change or remove some of the laws (Have to be in the council to change Laws)
+                                        <ol class="list-decimal pl-8 mt-2 text-gray-400">
+                                            <li>If there is a council member in a new party he will bring up any issues he has with the council</li>
+                                            <li>If the other 2 council members agree with the changes the Mass Remodeling will start</li>
+                                        </ol>
+                                    </li>
+                                    <li class="mt-2">The citizens think the laws are not fair and need to be changed
+                                        <ol class="list-decimal pl-8 mt-2 text-gray-400">
+                                            <li> The citizens will bring up the problem with the TCC </li>
+                                            <li>  If  75% of the TCC passes this the TCC will bring up the law with the council</li>
+                                            <li>If  2 of the council members agrees the laws will pass</li>
+                                        </ol>
+                                    </li>
+                                </ol>
+                            </li>
+                            <li class="mt-3"><strong>Section 10.3: What a Mass Remodeling Means</strong>
+                                <ol class="list-decimal pl-8 mt-2 text-gray-400">
+                                    <li>A Mass remodeling is A month long period where Section 7.2.4 does not apply</li>
+                                    <li>That means that people in the council can change, remove, and add laws whenever</li>
+                                    <li>This is made to be a very rarely used law  and it holds a lot of power</li>
+                                </ol>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                        <h4 class="text-2xl font-normal text-white mb-4">Part IX: Laws of peace treaties or cease fire</h4>
+                        
+                        <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 11: Laws of Peace Treaties</h5>
+                        <ul class="charter-list">
+                            <li><strong>Section 11.1 What Peace treaty means</strong>
+                                <ol class="list-decimal pl-8 mt-2 text-gray-400">
+                                    <li>We  have an agreement with another slideshow</li>
+                                    <li>The slideshows cannot make any propaganda about each other</li>
+                                    <li>There may be dual citizenships once the treaty is signed </li>
+                                    <li>You can include exchanges with ideas </li>
+                                    <li>They may exchange money </li>
+                                    <li>These peace treaties last forever and once broken the peace treaty they will not be protected by the treaty</li>
+                                </ol>
+                            </li>
+                            <li class="mt-3"><strong>Section 11.2 How a peace treaty will be constructed and signed</strong>
+                                <ol class="list-decimal pl-8 mt-2 text-gray-400">
+                                    <li>The peace treaty should be constructed on a google doc</li>
+                                    <li>Our executive ruler and council assistant create the pecan treaty</li>
+                                    <li>2 of our council members must sign the treaty to make it official treaty</li>
+                                </ol>
+                            </li>
+                        </ul>
+
+                        <h5 class="text-xl font-normal text-gray-200 mt-6 mb-3">Chapter 12: Rules of ceasefires</h5>
+                        <ul class="charter-list">
+                            <li><strong>Section 12.1 What a cease fire means</strong>
+                                <ol class="list-decimal pl-8 mt-2 text-gray-400">
+                                    <li>No propaganda or Anti propaganda against each other</li>
+                                    <li>This is an agreement between slideshows but unlike a treaty this means it is for a certain amount of time</li>
+                                    <li>They will join forces fir that designated time</li>
+                                </ol>
+                            </li>
+                            <li class="mt-3"><strong>Section 12.2  How a cease fire should be constructed and signed</strong>
+                                <ol class="list-decimal pl-8 mt-2 text-gray-400">
+                                    <li>The cease fire should be constructed on a google doc</li>
+                                    <li>The cease fire should be constructed by our council assistant and Executive Ruler</li>
+                                    <li>The only person from the Republic of Spung should be the President </li>
+                                </ol>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="p-8 bg-gray-950/50 border border-gray-800/50 rounded-xl">
+                        <h4 class="text-2xl font-normal text-white mb-4">Part X: The establishment of Colonies</h4>
+                        <h5 class="text-xl font-normal text-gray-200 mb-3">Chapter 13: The establishment of Colonies</h5>
+                        <ul class="charter-list">
+                            <li><strong>Article 13.1:</strong> The establishment of an official colony within the Republic of Spung necessitates the procurement and issuance of an official Republic of Spung Charter (RSC). Prior to the dispatch of any colonial contingent, the RSC must secure affirmative approval from a minimum of two (2) designated Council members.</li>
+                            <li><strong>Article 13.2:</strong> Individuals holding membership on the Council are expressly prohibited from initiating or establishing a colony.</li>
+                            <li><strong>Article 13.3:</strong> The individual recipient of the RSC shall assume the position of Governor of the Colony, retaining this office until such time as they voluntarily relinquish their gubernatorial authority.</li>
+                            <li><strong>Article 13.4:</strong> The Governor shall maintain direct reporting accountability to the Council. A solitary Council member may be assigned to a colony solely for the purpose of supervision. Consequently, direct posting or communication on designated "slides" by any Council member is strictly forbidden.</li>
+                            <li><strong>Article 13.5:</strong> Citizens residing within the Colonies shall possess the franchise to participate in elections for Council membership. The official electoral instrument, a Google Document, shall be furnished to the Governor, who shall retain the discretion to determine whether or not such citizens shall be permitted to vote.</li>
+                            <li><strong>Article 13.6:</strong> Individuals currently serving as government officials within any other designated "slideshow" are ineligible for appointment or service within a colony.</li>
+                            <li><strong>Article 1S.7:</strong> The designation and naming of a colony shall be the prerogative of the Council, following the submission of a suggestion by the Governor.</li>
+                        </ul>
+                    </div>
+
+                    </div> </div>
             
         </section>
 
     </main>
 
-    <!-- Footer -->
     <footer class="border-t border-gray-900 py-8">
         <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
             <p>&copy; 2025, New Spungia. Governed by the principles of the Charter of Governance.</p>
@@ -329,5 +607,28 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButton = document.getElementById('charter-toggle-button');
+            const charterDetails = document.getElementById('full-charter-details');
+
+            if (toggleButton && charterDetails) {
+                toggleButton.addEventListener('click', () => {
+                    const isHidden = charterDetails.classList.toggle('hidden');
+                    
+                    if (isHidden) {
+                        // Content is now hidden
+                        toggleButton.innerHTML = '<i class="fa-solid fa-file-invoice mr-2"></i> Go to Full Charter of Governance';
+                        // Scroll back up to the button when content is hidden
+                        // Using 'smooth' behavior for a nice effect
+                        toggleButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        // Content is now visible
+                        toggleButton.innerHTML = '<i class="fa-solid fa-file-circle-minus mr-2"></i> Hide Full Charter Details';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
