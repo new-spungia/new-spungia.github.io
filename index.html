@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Trap the Cat!</title>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
     <style>
         html, body {
             margin: 0;
@@ -60,20 +60,38 @@
             cursor: pointer;
         }
 
-        /* Reset Button Styling - Centered Below */
+        /* Reset Button Styling - Adapted from Messenger Tutorial Disclaimer Button */
         #reset {
             margin-top: 3vh;
-            color: #000;
-            font-size: 4vmin;
-            font-weight: 400;
-            cursor: pointer;
             user-select: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: opacity 0.2s;
+            cursor: pointer;
+
+            /* Structural styles copied from .disclaimer-button */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            
+            /* Padding & Radius from reference */
+            padding: 0.75rem 1.5rem; 
+            border-radius: 0.75rem; 
+
+            /* Font styling */
+            font-size: 1.1rem; 
+            font-weight: 400; 
+            
+            /* Light Grey Adaptation (Contrast against white, but discrete) */
+            background-color: #f3f4f6; /* Light grey */
+            color: #1f2937; /* Dark grey text */
+            border: 1px solid #e5e7eb; /* Subtle border */
+            
+            box-shadow: none;
+            transition: all 0.15s ease-in-out;
         }
+
         #reset:hover {
-            opacity: 0.7;
+            background-color: #e5e7eb; /* Slightly darker on hover */
+            border-color: #d1d5db;
+            transform: scale(1.02); /* Scale effect from reference */
         }
 
         /* Attribution Styling - Bottom Right, Discrete */
@@ -212,7 +230,7 @@
 
     <div id="reset">Reset</div>
 
-    <a id="attribution" href="https://v5-4simpleproblems.github.io" target="_blank">Ported in HTML by 4SP.</a>
+    <a id="attribution" href="https://github.com/v5-4simpleproblems" target="_blank">Ported in HTML by 4SP.</a>
 
     <script>
     ! function() {
