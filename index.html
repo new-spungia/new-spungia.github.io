@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trap the Cat!</title>
+    <title>Trap the Kat!</title>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
     <style>
         html, body {
@@ -21,28 +21,56 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: 'Geist', 'Nunito', sans-serif; /* Use Geist with fallback */
+            font-family: 'Geist', 'Nunito', sans-serif;
         }
 
-        /* Title Styling - Centered Above */
+        /* Title Styling */
         #title {
             font-weight: 450;
-            font-size: 4vmin; /* Responsive font size */
+            font-size: 4vmin;
             color: #000;
             margin-bottom: 2vh;
             text-align: center;
             user-select: none;
         }
 
-        /* Game SVG Styling - Responsive & Centered */
+        /* Scoreboard Styling */
+        #score-board {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+            font-size: 0.9rem;
+            color: #444;
+            background: rgba(243, 244, 246, 0.9);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            user-select: none;
+            z-index: 100;
+        }
+        .score-item {
+            display: block;
+            margin-bottom: 4px;
+        }
+        .score-item span {
+            font-weight: 450;
+            color: #000;
+        }
+
+        /* Game SVG Styling */
         #game {
             display: block;
             width: auto;
             height: auto;
-            /* Maximize size but keep aspect ratio and fit within view */
             max-width: 90vw;
             max-height: 70vh; 
-            aspect-ratio: 530/395; /* Based on viewBox */
+            aspect-ratio: 530/395;
+        }
+
+        /* Hidden class for toggling views */
+        .hidden {
+            display: none !important;
         }
 
         /* Internal SVG Styling */
@@ -60,47 +88,64 @@
             cursor: pointer;
         }
 
-        /* Reset Button Styling - Adapted from Messenger Tutorial Disclaimer Button */
-        #reset {
-            margin-top: 3vh;
+        /* SHARED BUTTON STYLE (For Reset & Difficulty Selection) */
+        .btn-style {
             user-select: none;
             cursor: pointer;
-
-            /* Structural styles copied from .disclaimer-button */
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            
-            /* Padding & Radius from reference */
             padding: 0.75rem 1.5rem; 
             border-radius: 0.75rem; 
-
-            /* Font styling */
             font-size: 1.1rem; 
             font-weight: 400; 
-            
-            /* Light Grey Adaptation (Contrast against white, but discrete) */
             background-color: #f3f4f6; /* Light grey */
             color: #1f2937; /* Dark grey text */
-            border: 1px solid #e5e7eb; /* Subtle border */
-            
+            border: 1px solid #e5e7eb; 
             box-shadow: none;
             transition: all 0.15s ease-in-out;
+            font-family: 'Geist', sans-serif;
         }
 
-        #reset:hover {
-            background-color: #e5e7eb; /* Slightly darker on hover */
+        .btn-style:hover {
+            background-color: #e5e7eb;
             border-color: #d1d5db;
-            transform: scale(1.02); /* Scale effect from reference */
+            transform: scale(1.02);
         }
 
-        /* Attribution Styling - Bottom Right, Discrete */
+        /* Controls Container for Reset and Main Menu */
+        #controls-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 3vh;
+        }
+
+        /* MENU STYLES */
+        #menu-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            z-index: 10;
+        }
+        
+        .menu-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .difficulty-btn {
+            width: 200px; /* Fixed width for symmetry */
+        }
+
+        /* Attribution Styling */
         #attribution {
             position: absolute;
             bottom: 15px;
             right: 15px;
-            font-size: 10px; /* Small text */
-            color: #000000;     /* Discrete color */
+            font-size: 10px; 
+            color: #000000;   
             text-decoration: none;
             font-weight: 300;
             font-family: 'Geist Sans', sans-serif;
@@ -116,9 +161,22 @@
 </head>
 <body>
 
-    <div id="title">Trap the Cat</div>
+    <div id="title">Trap the Kat</div>
 
-    <svg id="game" viewBox="0 0 530 395" preserveAspectRatio="xMidYMid meet">
+    <div id="score-board">
+        <div class="score-item">Easy: <span id="score-easy">0</span></div>
+        <div class="score-item">Medium: <span id="score-medium">0</span></div>
+        <div class="score-item">Hard: <span id="score-hard">0</span></div>
+    </div>
+
+    <div id="menu-container">
+        <div class="menu-subtitle">Select Difficulty</div>
+        <div class="btn-style difficulty-btn" data-blocks="100">Easy</div>
+        <div class="btn-style difficulty-btn" data-blocks="30">Medium</div>
+        <div class="btn-style difficulty-btn" data-blocks="10">Hard</div>
+    </div>
+ 
+    <svg id="game" class="hidden" viewBox="0 0 530 395" preserveAspectRatio="xMidYMid meet">
         <defs>
             <g id="r0" transform="matrix(1, 0, 0, 1, 25, 15)">
                 <path d="M15,-7.5L15 7.5L0 15L-15 7.5L-15 -7.5L0 -15L15 -7.5" />
@@ -228,7 +286,10 @@
         <use id="cat"/>
     </svg>
 
-    <div id="reset">Reset</div>
+    <div id="controls-container" class="hidden">
+        <div id="reset" class="btn-style">Reset</div>
+        <div id="main-menu" class="btn-style">Main Menu</div>
+    </div>
 
     <a id="attribution" href="https://github.com/v5-4simpleproblems" target="_blank">Ported in HTML by 4SP.</a>
 
@@ -242,6 +303,98 @@
         var board   = document.getElementById("board");
         var game    = document.getElementById("game");
         var resetB  = document.getElementById("reset");
+        var mainMenuB = document.getElementById("main-menu");
+        var controlsContainer = document.getElementById("controls-container");
+        var menuContainer = document.getElementById("menu-container");
+        
+        // Default blocks logic 
+        var currentDifficultyBlocks = 30; 
+
+        // -------------------- SCORE MANAGER --------------------
+        
+        // Map block counts to string keys for easier logic
+        var difficultyMap = {
+            100: 'easy',
+            30: 'medium',
+            10: 'hard'
+        };
+
+        var scores = {
+            'easy': 0,
+            'medium': 0,
+            'hard': 0
+        };
+
+        // Load scores from LocalStorage on init
+        function loadScores() {
+            var saved = localStorage.getItem('catTrapScores');
+            if (saved) {
+                try {
+                    scores = JSON.parse(saved);
+                } catch (e) {
+                    console.error("Failed to parse scores", e);
+                }
+            }
+            updateScoreUI();
+        }
+
+        // Save current scores to LocalStorage
+        function saveScores() {
+            localStorage.setItem('catTrapScores', JSON.stringify(scores));
+            updateScoreUI();
+        }
+
+        // Update the HTML display
+        function updateScoreUI() {
+            document.getElementById('score-easy').textContent = scores['easy'] || 0;
+            document.getElementById('score-medium').textContent = scores['medium'] || 0;
+            document.getElementById('score-hard').textContent = scores['hard'] || 0;
+        }
+
+        function incrementScore() {
+            var key = difficultyMap[currentDifficultyBlocks];
+            if (key) {
+                scores[key]++;
+                saveScores();
+            }
+        }
+
+        // Initialize scores immediately
+        loadScores();
+
+        // -------------------------------------------------------
+
+        // Setup Difficulty Buttons
+        var diffButtons = document.querySelectorAll('.difficulty-btn');
+        diffButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var blocks = parseInt(this.getAttribute('data-blocks'), 10);
+                startGame(blocks);
+            });
+        });
+
+        function startGame(blocks) {
+            currentDifficultyBlocks = blocks;
+            menuContainer.classList.add('hidden');
+            game.classList.remove('hidden');
+            controlsContainer.classList.remove('hidden');
+            
+            // Start the logic
+            newGame();
+        }
+
+        // Setup Main Menu Button
+        mainMenuB.addEventListener('click', function() {
+            // Hide Game UI
+            game.classList.add('hidden');
+            controlsContainer.classList.add('hidden');
+            // Show Menu
+            menuContainer.classList.remove('hidden');
+            // Hide cat to be clean
+            cat.display(0, 0, ""); 
+            enabled = false; 
+        });
+
         resetB.onclick = resetB.ontouchstart = function (e) {
             e.preventDefault();
             if (enabled) {
@@ -250,6 +403,7 @@
             }
             return false;
         }
+        
         var enabled = true, win = false;
         var addx0, addy0, addx1, addy1, cel, lx, ly, ld, lmax, lx2, ly2;
 
@@ -300,6 +454,11 @@
 
         // initialize new game
         function newGame () {
+            // Clear existing board if restarting
+            while (board.firstChild) {
+                board.removeChild(board.firstChild);
+            }
+
             win = false;
             enabled = true;
             addx0 = [1, 0, -1, -1, -1, 0];
@@ -331,8 +490,8 @@
                     cel[i][j].stat = 1;
                 }
             }
-            // place random plots (10 more than in the original)
-            for (var i = 0; i < 30; i++) {
+            // place random plots (Based on difficulty setting)
+            for (var i = 0; i < currentDifficultyBlocks; i++) {
                 var rx = Math.floor(Math.random() * 15);
                 var ry = Math.floor(Math.random() * 15);
                 if (rx != cat.x && ry != cat.y) {
@@ -582,14 +741,15 @@
                 }
                 var f = false;
                 if (!this.goOut()) {
-                    if (!this.gotoWin()) {
-                        if (!this.getNearest()) {
+                    if (!this.gotoWin()) { 
+                        if (!this.getNearest()) { 
                             if (!this.randMove()) f = true;
                         }
                     }
                 }
                 if (f) {
-                    // car loose
+                    // Cat is trapped (User Wins!)
+                    incrementScore();
                     enabled = false;
                     reset();
                 } else {
@@ -597,10 +757,6 @@
                 }
             }
         }
-
-
-        // start
-        newGame();
 
     }();
     
